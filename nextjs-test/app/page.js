@@ -1,7 +1,13 @@
+import Navigation from "./components/Navigation";
+
 export default function page() {
   return (
     <>
-      <h1>hello next !</h1>
+       
+
+      <div className="">
+        <h1> home </h1>
+      </div>
     </>
   );
 }
