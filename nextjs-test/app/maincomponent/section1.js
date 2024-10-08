@@ -60,7 +60,7 @@ function Section1() {
                 alt={section.label} // توضیح تصویر
               />
 
-              <Button className="absolute text-xl bg-white top-[40%] rounded-md shadow-md left-[27%] w-[40%] h-12 hover:bg-gray-200 transition duration-300">
+              <Button className="absolute text-xl bg-white top-[40%] rounded-md shadow-md left-[27%] w-[40%] h-12 hover:bg-gray-200 transition duration-300" onClick={()=>console.log("not login")}>
                 {section.label}
               </Button>
             </div>
