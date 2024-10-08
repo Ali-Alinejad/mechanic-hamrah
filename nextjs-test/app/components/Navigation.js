@@ -1,30 +1,29 @@
-'use-client'
-
-
+import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
 function Navigation() {
   return (
-    <>
-      <li className="flex justify-around p-10 shadow-md">
-        <ul className="p-4">لوگو شرکتی</ul>
+    <ul className="flex justify-around p-10 shadow-md">
+      <li className="p-4">لوگو شرکتی</li>
 
-        <Link href="/">
-          <ul className="p-4">خانه</ul>
-        </Link>
-        <Link href="/cabin">
-          <ul className="p-4">داشبورد</ul>
-        </Link>
-        <Link href="/blog">
-          <ul className="p-4">بلاگ</ul>
-        </Link>
-        <Link href="/account">
-          <ul className="border-2 rounded-md bg-cyan-700 text-white p-4 w-40 text-center hover:scale-105 transition duration-200  hover:ring-2">
+      <Link href="/">
+        <li className="p-4">خانه</li>
+      </Link>
+      <Link href="/cabin">
+        <li className="p-4">داشبورد</li>
+      </Link>
+      <Link href="/blog">
+        <li className="p-4">بلاگ</li>
+      </Link>
+      <Link href="/account">
+        <li>
+          <Button className="p-8 w-32" color="primary" >
             ورود
-          </ul>
-        </Link>
-      </li>
-    </>
+          </Button>
+       
+        </li>
+      </Link>
+    </ul>
   );
 }
 

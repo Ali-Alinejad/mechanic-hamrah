@@ -1,13 +1,12 @@
 import Navigation from "./components/Navigation";
+import Section1 from "./maincomponent/section1";
 
 export default function page() {
   return (
     <>
        
-
-      <div className="">
-        <h1> home </h1>
-      </div>
+<Section1/>
+  
     </>
   );
 }
