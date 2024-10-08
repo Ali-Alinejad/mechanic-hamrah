@@ -1,6 +1,6 @@
 
 
-import Navigation from "./components/Navigation";
+
 import { NextUIProvider } from "@nextui-org/react";
 import ReduxProvider from "./ReduxProvider"; // مسیر درست به ReduxProvider
 import "./main.css";
@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
       <body style={{ fontFamily: "'Vazirmatn', sans-serif" }}>
         <ReduxProvider>
           <NextUIProvider>
-            <Navigation />
+          
             <main className="mt-4">{children}</main>
           </NextUIProvider>
         </ReduxProvider>

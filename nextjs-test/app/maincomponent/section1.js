@@ -4,6 +4,7 @@ import { Button, Spinner } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import Navigation from "../components/Navigation";
 
 function Section1() {
   const [loading, setLoading] = useState(true);
@@ -35,44 +36,47 @@ function Section1() {
   ];
 
   return (
-    <div className="text-center h-[75vh] w-[80%] mx-auto mt-10">
-      <div className="grid md:grid-cols-2 grid-rows-2 gap-4">
-        {sections.map((section) => {
-          const image = images.find((img) => img.id === section.id); 
-          return (
-            <div
-              key={section.id}
-              className={`h-[37vh] border-2 relative ${section.bgColor} rounded-lg overflow-hidden shadow-lg`}
-            >
-              <div className="absolute inset-0 bg-black opacity-40"></div>
+    <>
+      <Navigation />
+      <div className="text-center h-[75vh] w-[80%] mx-auto mt-10">
+        <div className="grid md:grid-cols-2 grid-rows-2 gap-4">
+          {sections.map((section) => {
+            const image = images.find((img) => img.id === section.id);
+            return (
+              <div
+                key={section.id}
+                className={`h-[37vh] border-2 relative ${section.bgColor} rounded-lg overflow-hidden shadow-lg`}
+              >
+                <div className="absolute inset-0 bg-black opacity-40"></div>
 
-              {loading && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Spinner />
-                </div>
-              )}
+                {loading && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Spinner />
+                  </div>
+                )}
 
-              <Image
-                className="text-center mx-auto overflow w-full h-full object-cover"
-                src={image.src}
-                width={800}
-                height={400}
-                onLoad={() => setLoading(false)}
-                alt={section.label} // توضیح تصویر
-              />
-              <Link href="/account">
-                <Button
-                  className="absolute text-xl bg-white top-[40%] rounded-md shadow-md left-[27%] w-[40%] h-12 hover:bg-gray-200 transition duration-300"
-                  onClick={() => console.log("not login")}
-                >
-                  {section.label}
-                </Button>
-              </Link>
-            </div>
-          );
-        })}
+                <Image
+                  className="text-center mx-auto overflow w-full h-full object-cover"
+                  src={image.src}
+                  width={800}
+                  height={400}
+                  onLoad={() => setLoading(false)}
+                  alt={section.label} // توضیح تصویر
+                />
+                <Link href="/account">
+                  <Button
+                    className="absolute text-xl bg-white top-[40%] rounded-md shadow-md left-[27%] w-[40%] h-12 hover:bg-gray-200 transition duration-300"
+                    onClick={() => console.log("not login")}
+                  >
+                    {section.label}
+                  </Button>
+                </Link>
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
