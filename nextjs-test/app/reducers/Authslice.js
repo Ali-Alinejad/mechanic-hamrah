@@ -7,7 +7,7 @@ const authSlice = createSlice({
   },
   reducers: {
     toggleLogin: (state) => {
-      state.isLoggedIn = !state.isLoggedIn; // تغییر وضعیت ورود کاربر
+      state.isLoggedIn = !state.isLoggedIn;
       console.log(state.isLoggedIn ? "شما وارد شدید" : "شما خارج شدید");
     },
   },

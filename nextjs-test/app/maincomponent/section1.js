@@ -2,6 +2,7 @@
 
 import { Button, Spinner } from "@nextui-org/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 function Section1() {
@@ -56,13 +57,17 @@ function Section1() {
                 src={image.src}
                 width={800}
                 height={400}
-                onLoadingComplete={() => setLoading(false)}
+                onLoad={() => setLoading(false)}
                 alt={section.label} // توضیح تصویر
               />
-
-              <Button className="absolute text-xl bg-white top-[40%] rounded-md shadow-md left-[27%] w-[40%] h-12 hover:bg-gray-200 transition duration-300" onClick={()=>console.log("not login")}>
-                {section.label}
-              </Button>
+              <Link href="/account">
+                <Button
+                  className="absolute text-xl bg-white top-[40%] rounded-md shadow-md left-[27%] w-[40%] h-12 hover:bg-gray-200 transition duration-300"
+                  onClick={() => console.log("not login")}
+                >
+                  {section.label}
+                </Button>
+              </Link>
             </div>
           );
         })}

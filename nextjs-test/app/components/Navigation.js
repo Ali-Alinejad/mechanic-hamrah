@@ -44,12 +44,13 @@ function Navigation() {
           <Link href="/blog">بلاگ</Link>
         </li>
         <li className="p-4 hover:text-blue-500 transition duration-300">
-          <Button
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2"
-            onClick={handleLoginToggle}
-          >
-            {isLoggedIn ? "خروج" : "ورود"} {/* تغییر متن دکمه */}
-          </Button>
+          <Link href="/account">
+            <Button
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2"
+            >
+              ورود
+            </Button>
+          </Link>
         </li>
       </ul>
 
