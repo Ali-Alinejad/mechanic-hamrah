@@ -23,7 +23,7 @@ function Navigation() {
   return (
     <nav className="bg-white dark:bg-gray-900 text-gray-800 dark:text-white shadow-md">
       <div className="flex justify-between items-center p-4">
-        <div className="text-lg font-bold">لوگو شرکتی</div>
+        <div className="text-xl font-bold ">لوگو شرکتی</div>
         <div className="md:hidden" onClick={toggleMenu}>
           {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
         </div>
