@@ -1,11 +1,11 @@
 "use client";
 
-import { FaBars, FaTimes } from "react-icons/fa"; // Importing icons for the hamburger menu
+import { FaBars, FaTimes } from "react-icons/fa"; 
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux"; // Import useSelector
-import { toggleLogin } from "../reducers/Authslice"; // Import toggleLogin action
+import { useDispatch, useSelector } from "react-redux"; 
+import { toggleLogin } from "../reducers/Authslice";
 
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
