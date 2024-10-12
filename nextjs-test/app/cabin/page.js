@@ -1,7 +1,7 @@
 "use client";
-
+import { ImDelicious, ImFileText2, ImFolderDownload, ImMenu, ImOnedrive, ImPause2 } from "react-icons/im";
 import Link from "next/link";
-import LocationFinder from "./Api";
+import LocationFinder from "../api/custommap";
 import Filter from "./filter";
 import { useState } from "react";
 
@@ -19,7 +19,7 @@ function Page() {
           <div className="flex w-[80%] max-sm:items-end max-sm:w-full text-white items-center justify-center bg-blue-700 p-3">
             <div className="flex items-center justify-start rtl:justify-end ">
               <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-              مکانیک همراه شما
+                مکانیک همراه شما
               </span>
             </div>
           </div>
@@ -28,7 +28,7 @@ function Page() {
             onClick={toggleSidebar}
             className="sm:hidden p-1 absolute top-7 text-white scale-125 ml-4  transition duration-500 "
           >
-           {!isOpen ? "☰" :"X"} 
+            {!isOpen ? <ImMenu /> : <ImPause2 />}
           </button>
         </div>
       </nav>
@@ -42,10 +42,10 @@ function Page() {
       >
         <ul className="space-y-4 font-medium p-4">
           {[
-            { name: " داشبورد", icon: "dashboard-icon-path" },
-            { name: "برنامه", icon: "program-icon-path", newLabel: true },
-            { name: "پیام ها", icon: "messages-icon-path" },
-            { name: "بایگانی", icon: "archive-icon-path" },
+            { name: " داشبورد" },
+            { name: "برنامه",  newLabel: true },
+            { name: "پیام ها" },
+            { name: "بایگانی" },
           ].map((item) => (
             <li key={item.name} className="border-b p-2">
               <Link

@@ -15,7 +15,7 @@ function Filter() {
 
   const handleApply = () => {
     console.log("Selected options:", selectedOptions);
-    // Implement your apply logic here
+   
   };
 
   return (
