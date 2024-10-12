@@ -3,14 +3,18 @@
 import React, { useState } from "react";
 
 function Filter() {
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleOptionChange = (option) => {
-    setSelectedOption(option);
+    setSelectedOptions((prev) =>
+      prev.includes(option)
+        ? prev.filter((o) => o !== option)
+        : [...prev, option]
+    );
   };
 
   const handleApply = () => {
-    console.log("Selected option:", selectedOption);
+    console.log("Selected options:", selectedOptions);
     // Implement your apply logic here
   };
 
@@ -30,7 +34,7 @@ function Filter() {
                 type="checkbox"
                 name="filterOptions"
                 value={option}
-                checked={selectedOption === option}
+                checked={selectedOptions.includes(option)}
                 onChange={() => handleOptionChange(option)}
                 className="mr-3 accent-blue-600"
               />
@@ -41,7 +45,7 @@ function Filter() {
       </ul>
       <button
         onClick={handleApply}
-        className="mt-6 bg-white text-blue-500 font-bold py-2 px-4 rounded-lg hover:bg-blue-200 hover:shadow-md transition duration-200"
+        className="mt-6 w-full bg-white text-blue-500 font-bold py-2 px-4 rounded-lg hover:bg-blue-200 hover:shadow-md transition duration-200"
       >
         اعمال
       </button>

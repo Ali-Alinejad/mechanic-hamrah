@@ -100,10 +100,10 @@ function CustomMap() {
         </MapContainer>
       )}
 
-      {/* دکمه موقعیت شما */}
+    
       <Button
         onClick={handleLocationClick}
-        className="absolute bottom-4 right-4 w-12 h-12 shadow-2xl p-2 overflow-hidden"
+        className="absolute bottom-[-40px] right-10 w-12 h-12 shadow-2xl p-2 overflow-hidden rounded-full"
         color="primary"
       >
         موقعیت شما

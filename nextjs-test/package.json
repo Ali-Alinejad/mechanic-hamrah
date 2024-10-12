@@ -14,6 +14,7 @@
     "@nextui-org/card": "^2.0.34",
     "@nextui-org/input": "^2.2.5",
     "@nextui-org/link": "^2.0.35",
+    "@nextui-org/modal": "^2.0.41",
     "@nextui-org/react": "^2.4.8",
     "@nextui-org/spacer": "^2.0.33",
     "@nextui-org/system": "^2.2.6",
