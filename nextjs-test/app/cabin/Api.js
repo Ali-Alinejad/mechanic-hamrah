@@ -1,44 +1,24 @@
-// components/CustomMap.js
 "use client";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { Spinner, Button, Select } from "@nextui-org/react";
+import { Button, Spinner } from "@nextui-org/react";
 
-// Fix for marker icon issue
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-  iconUrl: require("leaflet/dist/images/marker-icon.png"),
-  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
+// آیکون سفارشی
+const customIcon = L.icon({
+  iconUrl:
+    "https://png.pngtree.com/png-vector/20220416/ourmid/pngtree-circle-location-icon-in-blue-and-white-color-png-image_4545017.png",
+  iconSize: [31, 31],
+  iconAnchor: [12, 41],
 });
 
-const DEFAULT_LOCATION = { latitude: 35.6892, longitude: 51.389 }; // Tehran coordinates
-
 function CustomMap() {
-  const [location, setLocation] = useState(DEFAULT_LOCATION);
-  const [error, setError] = useState(null);
+  const [location, setLocation] = useState(null);
   const [nearbyPlaces, setNearbyPlaces] = useState([]);
-
-  const fetchLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-          setLocation({ latitude, longitude });
-          await fetchNearbyPlaces(latitude, longitude);
-        },
-        (err) => {
-          setError(err.message);
-        }
-      );
-    } else {
-      setError("Geolocation is not supported by this browser.");
-    }
-  };
+  const [loading, setLoading] = useState(true); // حالت بارگذاری
 
   const fetchNearbyPlaces = async (latitude, longitude) => {
     try {
@@ -55,25 +35,36 @@ function CustomMap() {
       setNearbyPlaces(response.data.items);
     } catch (err) {
       console.error(err);
-      setError("خطا در دریافت مکان‌های نزدیک، دوباره تلاش کنید");
+    } finally {
+      setLoading(false); // پایان بارگذاری
+    }
+  };
+
+  const handleLocationClick = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setLocation({ latitude, longitude });
+        fetchNearbyPlaces(latitude, longitude);
+      });
     }
   };
 
   useEffect(() => {
-    fetchNearbyPlaces(location.latitude, location.longitude);
-  }, [location]);
+    handleLocationClick(); // بارگذاری موقعیت کاربر در ابتدا
+  }, []);
 
   return (
-    <div className="p-4 text-center justify-center">
-      {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
+    <div className="relative p-4 text-center justify-center">
+      {loading ? ( // نمایش اسپینر تا زمان بارگذاری موقعیت
+        <div
+          className="flex justify-center items-center"
+          style={{ height: "70vh" }}
+        >
+          <Spinner size="lg" />
         </div>
-      )}
-
-      <div >
+      ) : (
         <MapContainer
-        
           center={[location.latitude, location.longitude]}
           zoom={17}
           style={{ height: "70vh", width: "100%" }}
@@ -82,16 +73,41 @@ function CustomMap() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-          <Marker position={[location.latitude, location.longitude]}>
-            <Popup>موقعیت پیش‌فرض شما</Popup>
-          </Marker>
+          {location && (
+            <Marker
+              position={[location.latitude, location.longitude]}
+              icon={customIcon}
+            >
+              <Popup>موقعیت شما</Popup>
+            </Marker>
+          )}
           {nearbyPlaces.map((place, index) => (
-            <Marker key={index} position={[place.location.y, place.location.x]}>
+            <Marker
+              key={index}
+              position={[place.location.y, place.location.x]}
+              icon={customIcon}
+              eventHandlers={{
+                click: () => {
+                  const map = useMap();
+                  map.setView([place.location.y, place.location.x], 17);
+                  alert(`بارگذاری مکان ${place.title}`);
+                },
+              }}
+            >
               <Popup>{place.title}</Popup>
             </Marker>
           ))}
         </MapContainer>
-      </div>
+      )}
+
+      {/* دکمه موقعیت شما */}
+      <Button
+        onClick={handleLocationClick}
+        className="absolute bottom-4 right-4 w-12 h-12 shadow-2xl p-2 overflow-hidden"
+        color="primary"
+      >
+        موقعیت شما
+      </Button>
     </div>
   );
 }

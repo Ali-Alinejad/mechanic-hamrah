@@ -27,7 +27,7 @@ function Filter() {
           >
             <label className="flex items-center cursor-pointer">
               <input
-                type="radio"
+                type="checkbox"
                 name="filterOptions"
                 value={option}
                 checked={selectedOption === option}

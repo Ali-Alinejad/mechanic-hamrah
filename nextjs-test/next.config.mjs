@@ -8,6 +8,7 @@ const nextConfig = {
       "aghayeemdad.com",
       "static.vecteezy.com",
       "hypertire.com",
+      "png.pngtree.com",
     ],
   },
 };
