@@ -18,22 +18,24 @@ function CustomMap() {
   const fetchNearbyPlaces = async (latitude, longitude) => {
     try {
       setLoading(true);
-      const response = await axios.get("./proxy", {
+      const response = await axios.get(`${NESHAN_API_URL}/search`, {
         params: {
           term: "mechanic",
           lat: latitude,
           lng: longitude,
         },
+        headers: {
+          Authorization: `Bearer ${NESHAN_API_KEY}`, // کلید API نشان خود را وارد کنید
+        },
       });
       setNearbyPlaces(response.data.items);
     } catch (err) {
       console.error(err);
-      setError("خطا در دریافت مکان‌های نزدیک.");
+      setError("خطا در دریافت مکانهای نزدیک.");
     } finally {
       setLoading(false);
     }
   };
-
 
   const handleLocationClick = () => {
     if (navigator.geolocation) {
