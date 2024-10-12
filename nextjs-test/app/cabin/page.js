@@ -19,14 +19,14 @@ function Page() {
           <div className="flex w-[80%] max-sm:items-end max-sm:w-full text-white items-center justify-center bg-blue-700 p-3">
             <div className="flex items-center justify-start rtl:justify-end ">
               <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                مکانیک همراه
+              مکانیک همراه شما
               </span>
             </div>
           </div>
 
           <button
             onClick={toggleSidebar}
-            className="sm:hidden p-1 text-gray-700 scale-125 ml-4  transition duration-500 "
+            className="sm:hidden p-1 absolute top-7 text-white scale-125 ml-4  transition duration-500 "
           >
            {!isOpen ? "☰" :"X"} 
           </button>
