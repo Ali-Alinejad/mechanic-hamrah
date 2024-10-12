@@ -1,9 +1,10 @@
 "use client";
 import { ImDelicious, ImFileText2, ImFolderDownload, ImMenu, ImOnedrive, ImPause2 } from "react-icons/im";
 import Link from "next/link";
-import LocationFinder from "../api/custommap";
+
 import Filter from "./filter";
 import { useState } from "react";
+import MapIrMap from "../api/custommap";
 
 function Page() {
   const [isOpen, setIsOpen] = useState(false);
@@ -79,7 +80,7 @@ function Page() {
       </aside>
       <div className={`flex flex-row ${isOpen ? "opacity-50" : ""}`}>
         <div className={`w-[80%] max-sm:w-[96%]`}>
-          <LocationFinder />
+          < MapIrMap />
         </div>
       </div>
     </div>

@@ -1,17 +1,14 @@
-// api/proxy.js
-import axios from "axios";
 
-export default async (req, res) => {
-  const { term, lat, lng } = req.query;
-  try {
-    const response = await axios.get("https://api.neshan.org/v1/search", {
-      params: { term, lat, lng },
-      headers: {
-        Authorization: `web.e27fb33bea394b0c81f058ad18481f53`,
-      },
-    });
-    res.status(200).json(response.data);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+import { createProxyMiddleware } from "http-proxy-middleware";
+
+export default createProxyMiddleware({
+  target: "https://api.neshan.org",
+  changeOrigin: true,
+  pathRewrite: {
+    "^/api/proxy": "/v1", 
+  },
+  onProxyReq: (proxyReq, req, res) => {
+    // اضافه کردن هدر Api-Key
+    proxyReq.setHeader("Api-Key", "web.e27fb33bea394b0c81f058ad18481f53"); // 
+  },
+});
