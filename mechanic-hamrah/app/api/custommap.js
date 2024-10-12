@@ -7,7 +7,7 @@ import Head from "next/head";
 
 // آدرس API نشان
 const NESHAN_API_URL = "https://api.neshan.org/v1";
-const NESHAN_API_KEY = "web.e27fb33bea394b0c81f058ad18481f53"; // کلید API نشان خود را وارد کنید
+const NESHAN_API_KEY = "web.e27fb33bea394b0c81f058ad18481f53"; 
 
 function CustomMap() {
   const [location, setLocation] = useState(null);
@@ -25,7 +25,7 @@ function CustomMap() {
           lng: longitude,
         },
         headers: {
-          Authorization: `Bearer ${NESHAN_API_KEY}`, // کلید API نشان خود را وارد کنید
+          Authorization: `Bearer ${NESHAN_API_KEY}`, 
         },
       });
       setNearbyPlaces(response.data.items);
