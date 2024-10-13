@@ -1,11 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMapEvents,
+} from "react-leaflet";
 import { Button, Spinner } from "@nextui-org/react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
+// Fix for marker icon issue
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -13,21 +20,43 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
-// Custom icon for the marker
-const customIcon = new L.Icon({
+// آیکون سفارشی برای موقعیت کاربر
+const userLocationIcon = new L.Icon({
   iconUrl:
-    "https://www.vhv.rs/dpng/d/1-11823_circle-location-icon-png-transparent-png.png",
-  iconSize: [28, 28],
-  iconAnchor: [14, 28], // Center the icon
-  popupAnchor: [0, -28],
+    "https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png",
+  iconSize: [35, 35], // سایز آیکون
+  iconAnchor: [17, 35], // محل لنگر آیکون
+  popupAnchor: [0, -35], // محل باز شدن پاپ‌آپ
 });
 
-function MapIrMap({ onMapClick }) {
+// آیکون سفارشی برای مکان‌های دیگر
+const customIcon = new L.Icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+  iconSize: [35, 35], // سایز آیکون
+  iconAnchor: [17, 35], // محل لنگر آیکون
+  popupAnchor: [0, -35], // محل باز شدن پاپ‌آپ
+});
+
+function LocationMarker({ onClick }) {
+  const [position, setPosition] = useState(null);
+  const map = useMapEvents({
+    click(e) {
+      setPosition(e.latlng);
+      onClick(e.latlng.lat, e.latlng.lng);
+    },
+  });
+
+  return position === null ? null : (
+    <Marker position={position} icon={customIcon}>
+      <Popup>موقعیت انتخابی شما</Popup>
+    </Marker>
+  );
+}
+
+function MapIrMap({ onClick }) {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  const [markerPosition, setMarkerPosition] = useState(null); // برای ذخیره موقعیت علامت
 
   const handleLocationClick = () => {
     if (navigator.geolocation) {
@@ -45,14 +74,6 @@ function MapIrMap({ onMapClick }) {
     } else {
       setError("Geolocation is not supported by this browser.");
       setLoading(false);
-    }
-  };
-
-  const handleMapClick = (event) => {
-    const { lat, lng } = event.latlng; // دریافت مختصات کلیک شده
-    setMarkerPosition({ lat, lng }); // ذخیره موقعیت جدید
-    if (onMapClick) {
-      onMapClick({ lat, lng }); // فراخوانی تابع ارسال موقعیت
     }
   };
 
@@ -74,25 +95,17 @@ function MapIrMap({ onMapClick }) {
           center={[location.latitude, location.longitude]}
           zoom={15}
           style={{ height: "70vh", width: "100%" }}
-          whenCreated={(map) => map.on("click", handleMapClick)} // اضافه کردن رویداد کلیک به نقشه
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {location && (
             <Marker
               position={[location.latitude, location.longitude]}
-              icon={customIcon}
+              icon={userLocationIcon}
             >
               <Popup>موقعیت شما</Popup>
             </Marker>
           )}
-          {markerPosition && ( // نمایش علامت در موقعیت جدید
-            <Marker
-              position={[markerPosition.lat, markerPosition.lng]}
-              icon={customIcon}
-            >
-              <Popup>موقعیت انتخاب شده</Popup>
-            </Marker>
-          )}
+          <LocationMarker onClick={onClick} />
         </MapContainer>
       )}
       <div className="flex-row-reverse flex">

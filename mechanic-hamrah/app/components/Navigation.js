@@ -23,7 +23,9 @@ function Navigation() {
   return (
     <nav className="bg-white dark:bg-gray-900 text-gray-800 dark:text-white shadow-md">
       <div className="flex justify-between items-center p-4">
-        <div className="text-xl font-bold ">لوگو شرکتی</div>
+        <Link href={"/"}>
+          <div className="text-xl font-bold ">لوگو شرکتی</div>
+        </Link>
         <div className="md:hidden" onClick={toggleMenu}>
           {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
         </div>
@@ -45,9 +47,7 @@ function Navigation() {
         </li>
         <li className="p-4 hover:text-blue-500 transition duration-300">
           <Link href="/account">
-            <Button
-              className="bg-blue-600 hover:bg-blue-600 text-white rounded-md px-4 py-2"
-            >
+            <Button className="bg-blue-600 hover:bg-blue-600 text-white rounded-md px-4 py-2">
               ورود
             </Button>
           </Link>
