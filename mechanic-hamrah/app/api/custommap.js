@@ -6,7 +6,6 @@ import { Button, Spinner } from "@nextui-org/react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// Fix for marker icon issue
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -14,19 +13,21 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
-// تعریف آیکون سفارشی
+// Custom icon for the marker
 const customIcon = new L.Icon({
   iconUrl:
-    "https://www.vhv.rs/dpng/d/1-11823_circle-location-icon-png-transparent-png.png", // مسیر به آیکون سفارشی شما
-  iconSize: [28, 28], // سایز آیکون
-  iconAnchor: [17, 35], // محل لنگر آیکون
-  popupAnchor: [0, -35], // محل باز شدن پاپ‌آپ
+    "https://www.vhv.rs/dpng/d/1-11823_circle-location-icon-png-transparent-png.png",
+  iconSize: [28, 28],
+  iconAnchor: [14, 28], // Center the icon
+  popupAnchor: [0, -28],
 });
 
-function MapIrMap() {
+function MapIrMap({ onMapClick }) {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const [markerPosition, setMarkerPosition] = useState(null); // برای ذخیره موقعیت علامت
 
   const handleLocationClick = () => {
     if (navigator.geolocation) {
@@ -44,6 +45,14 @@ function MapIrMap() {
     } else {
       setError("Geolocation is not supported by this browser.");
       setLoading(false);
+    }
+  };
+
+  const handleMapClick = (event) => {
+    const { lat, lng } = event.latlng; // دریافت مختصات کلیک شده
+    setMarkerPosition({ lat, lng }); // ذخیره موقعیت جدید
+    if (onMapClick) {
+      onMapClick({ lat, lng }); // فراخوانی تابع ارسال موقعیت
     }
   };
 
@@ -65,6 +74,7 @@ function MapIrMap() {
           center={[location.latitude, location.longitude]}
           zoom={15}
           style={{ height: "70vh", width: "100%" }}
+          whenCreated={(map) => map.on("click", handleMapClick)} // اضافه کردن رویداد کلیک به نقشه
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {location && (
@@ -73,6 +83,14 @@ function MapIrMap() {
               icon={customIcon}
             >
               <Popup>موقعیت شما</Popup>
+            </Marker>
+          )}
+          {markerPosition && ( // نمایش علامت در موقعیت جدید
+            <Marker
+              position={[markerPosition.lat, markerPosition.lng]}
+              icon={customIcon}
+            >
+              <Popup>موقعیت انتخاب شده</Popup>
             </Marker>
           )}
         </MapContainer>

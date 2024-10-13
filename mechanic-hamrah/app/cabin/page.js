@@ -5,6 +5,7 @@ import Link from "next/link";
 import Filter from "./filter";
 import { useState } from "react";
 import MapIrMap from "../api/custommap";
+import { Button } from "@nextui-org/react";
 
 function Page() {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,14 +44,14 @@ function Page() {
       >
         <ul className="space-y-4 font-medium p-4">
           {[
-            { name: " داشبورد" },
+            { name: "افزودن" },
             { name: "برنامه",  newLabel: true },
             { name: "پیام ها" },
             { name: "بایگانی" },
           ].map((item) => (
             <li key={item.name} className="border-b p-2">
               <Link
-                href="#"
+                href={item.name === "افزودن" ? "/add " : "#"}
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-100 dark:text-white dark:hover:bg-gray-700 group transition duration-200"
               >
                 <svg
@@ -71,6 +72,7 @@ function Page() {
                   </span>
                 )}
               </Link>
+              
             </li>
           ))}
         </ul>
