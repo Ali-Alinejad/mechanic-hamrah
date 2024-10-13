@@ -1,11 +1,11 @@
-import Navigation from "./components/Navigation";
+
 import Section1 from "./maincomponent/section1";
 
 export default function page() {
   return (
     <>
-       
-<Section1/>
+      <Section1 />
+
   
     </>
   );
