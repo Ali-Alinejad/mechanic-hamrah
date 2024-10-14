@@ -9,6 +9,7 @@ const nextConfig = {
       "static.vecteezy.com",
       "hypertire.com",
       "png.pngtree.com",
+      "i.pravatar.cc",
     ],
   },
 };

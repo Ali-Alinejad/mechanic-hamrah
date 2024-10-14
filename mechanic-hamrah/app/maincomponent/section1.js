@@ -39,12 +39,12 @@ function Section1() {
   return (
     <>
       <Navigation />
-     
-        <h1 className="text-center justify-center pt-12 text-4xl w-full bg-blue-700 text-white h-40 ">
-          نزدیک ترین خدمات به شما
-        </h1>
 
-      <div className="text-center h-[75vh] w-[80%] mx-auto mt-10">
+      <h1 className="text-center justify-center pt-12 text-4xl w-full bg-gradient-to-r from-indigo-600 to-blue-700 text-white h-40  ">
+        نزدیک ترین خدمات به شما
+      </h1>
+
+      <div className="text-center h-[75vh]  w-[80%] mx-auto mt-10 h-fit">
         <div className="grid md:grid-cols-4 gap-4">
           {sections.map((section) => {
             const image = images.find((img) => img.id === section.id);
@@ -52,10 +52,9 @@ function Section1() {
               <motion.div
                 key={section.id}
                 className={`h-[37vh] border-2 relative ${section.bgColor} rounded-lg overflow-hidden shadow-2xl`}
-                initial={{ y: 100, opacity: 0  ,scale:0.95}}
+                initial={{ y: 100, opacity: 0, scale: 0.95 }}
                 animate={{ y: 0, opacity: 1 }}
                 whileHover={{ scale: 1.05 }}
-             
                 transition={{
                   type: "spring",
                   stiffness: 100,
