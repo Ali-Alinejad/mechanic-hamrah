@@ -64,13 +64,12 @@ const Section2 = () => {
   useEffect(() => {
     // شروع انیمیشن حرکت مداوم
     controls.start({
-        x: ["0%", "-300%"], 
+        x: ["0", "-730%"], 
        
       transition: {
-        duration: 40, 
+        duration: 30, 
         ease: "linear",
-        loop: Infinity, 
-          repeatDelay: 2, 
+        repeatType: "reverse",
         repeat: Infinity
       },
     });
