@@ -13,7 +13,7 @@ const Section2 = () => {
     },
     {
       name: "مریم",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024e",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024q",
       feedback: "بسیار راضی هستم.",
     },
     {
@@ -33,7 +33,7 @@ const Section2 = () => {
     },
     {
       name: "سارا",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026025c",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026025n",
       feedback: "تجربه‌ی فوق‌العاده‌ای بود.",
     },
     {
@@ -53,7 +53,7 @@ const Section2 = () => {
     },
     {
       name: "زهرا",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026025g",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026025y",
       feedback: "کیفیت خدمات بسیار بالا بود.",
     },
   ];

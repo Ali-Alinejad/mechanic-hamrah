@@ -5,9 +5,10 @@ import Section2 from "./maincomponent/Section2";
 export default function page() {
   return (
     <>
-      <Section1  />
-<Section2/>
-  
+      <div className="">
+        <Section1 />
+        <Section2 />
+      </div>
     </>
   );
 }
