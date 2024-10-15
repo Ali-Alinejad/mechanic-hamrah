@@ -76,7 +76,10 @@ function Page() {
           </div>
           <div className="w-[60%] ml-2">
             <div className="h-fit bg-gray-300 rounded-lg mt-4">
-              <MapIrMap onClick={handleMapClick} />
+              <MapIrMap
+                onClick={handleMapClick}
+                selectedLocation={selectedLocation}
+              />
             </div>
           </div>
         </div>
@@ -84,5 +87,4 @@ function Page() {
     </>
   );
 }
-
 export default Page;

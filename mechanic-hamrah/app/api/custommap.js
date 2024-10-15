@@ -1,5 +1,5 @@
 "use client";
-
+import { supabase } from "../SupaBase/supabaseClient";
 import { useEffect, useState } from "react";
 import {
   MapContainer,
@@ -12,7 +12,6 @@ import { Button, Spinner } from "@nextui-org/react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// Fix for marker icon issue
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -20,21 +19,19 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
-// آیکون سفارشی برای موقعیت کاربر
 const userLocationIcon = new L.Icon({
   iconUrl:
     "https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png",
-  iconSize: [35, 35], // سایز آیکون
-  iconAnchor: [17, 35], // محل لنگر آیکون
-  popupAnchor: [0, -35], // محل باز شدن پاپ‌آپ
+  iconSize: [35, 35],
+  iconAnchor: [17, 35],
+  popupAnchor: [0, -35],
 });
 
-// آیکون سفارشی برای مکان‌های دیگر
 const customIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
-  iconSize: [35, 35], // سایز آیکون
-  iconAnchor: [17, 35], // محل لنگر آیکون
-  popupAnchor: [0, -35], // محل باز شدن پاپ‌آپ
+  iconSize: [35, 35],
+  iconAnchor: [17, 35],
+  popupAnchor: [0, -35],
 });
 
 function LocationMarker({ onClick }) {
@@ -45,7 +42,6 @@ function LocationMarker({ onClick }) {
       onClick(e.latlng.lat, e.latlng.lng);
     },
   });
-
   return position === null ? null : (
     <Marker position={position} icon={customIcon}>
       <Popup>موقعیت انتخابی شما</Popup>
@@ -53,10 +49,11 @@ function LocationMarker({ onClick }) {
   );
 }
 
-function MapIrMap({ onClick }) {
+function MapIrMap({ onClick, selectedLocation }) {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [locations, setLocations] = useState([]);
 
   const handleLocationClick = () => {
     if (navigator.geolocation) {
@@ -67,6 +64,7 @@ function MapIrMap({ onClick }) {
           setLoading(false);
         },
         (error) => {
+          console.error("خطا در دریافت موقعیت جغرافیایی:", error);
           setError("خطا در دریافت موقعیت جغرافیایی.");
           setLoading(false);
         }
@@ -77,8 +75,19 @@ function MapIrMap({ onClick }) {
     }
   };
 
+  const fetchLocations = async () => {
+   let { data, error } = await supabase.from("Type").select("*");
+    if (error) {
+      console.error("Error fetching locations:", error);
+    } else {
+      console.log("Fetched locations:", data);
+      setLocations(data);
+    }
+  };
+
   useEffect(() => {
     handleLocationClick();
+    fetchLocations();
   }, []);
 
   return (
@@ -105,6 +114,27 @@ function MapIrMap({ onClick }) {
               <Popup>موقعیت شما</Popup>
             </Marker>
           )}
+          {selectedLocation && (
+            <Marker
+              position={[selectedLocation.lat, selectedLocation.lng]}
+              icon={customIcon}
+            >
+              <Popup>موقعیت انتخابی</Popup>
+            </Marker>
+          )}
+          {locations.map((loc) => (
+            <Marker
+              key={loc.id}
+              position={[loc.lat, loc.lon]}
+              icon={customIcon}
+            >
+              <Popup>
+                <strong>{loc.name}</strong>
+                <br />
+                آدرس: {loc.address}
+              </Popup>
+            </Marker>
+          ))}
           <LocationMarker onClick={onClick} />
         </MapContainer>
       )}
