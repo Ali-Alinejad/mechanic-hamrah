@@ -109,49 +109,45 @@ function MapIrMap({ onClick }) {
               icon={customIcon}
             >
               <Popup>
-                <div className="p-3">
-                  <NextUI.Card className="shadow-lg rounded-lg">
-                    <NextUI.Card.Header className="bg-blue-600 text-white rounded-t-lg">
-                      <NextUI.Text h3>{loc.name}</NextUI.Text>
-                    </NextUI.Card.Header>
-                    <NextUI.Card.Body>
-                      <NextUI.Text className="text-gray-700 mb-2">
-                        آدرس: {loc.address}
-                      </NextUI.Text>
+                <div className=" w-fit">
+                  <div className="shadow-lg rounded-lg bg-white">
+                    <div className="bg-blue-600 text-white rounded-t-lg p-4">
+                      <h3 className="text-lg font-semibold">{loc.name}</h3>
+                    </div>
+                    <div className="p-4">
+                      <p className="text-gray-700 mb-2">آدرس: {loc.address}</p>
                       <div className="flex items-center justify-between mt-2 mb-2">
-                        <NextUI.Text className="text-gray-600 font-medium">
-                          تلفن:
-                        </NextUI.Text>
-                        <NextUI.Input
-                          className="w-full"
+                        <span className="text-gray-600 font-medium">تلفن:</span>
+                        <input
+                          className="w-full border border-gray-300 rounded-md p-2"
                           value={loc.status ? loc.phone : "کاربر غیر فعال است"}
                           readOnly
                         />
                       </div>
                       <div className="flex items-center justify-between bg-blue-50 p-2 rounded-md shadow-sm mb-2">
-                        <NextUI.Text className="text-blue-600 font-bold">
-                          نوع:
-                        </NextUI.Text>
-                        <NextUI.Badge>{loc.type}</NextUI.Badge>
+                        <span className="text-blue-600 font-bold">نوع:</span>
+                        <span className="bg-blue-200 text-blue-800 px-2 py-1 rounded-full">
+                          {loc.type}
+                        </span>
                       </div>
-                      <NextUI.Card.Footer
+                      <div
                         className={`mt-2 p-2 rounded-md shadow-sm ${
                           loc.status ? "bg-green-50" : "bg-red-50"
                         }`}
                       >
                         <div className="flex justify-around w-full">
-                          <NextUI.Text>⭐{loc.score}</NextUI.Text>
-                          <NextUI.Text
+                          <span>⭐{loc.score}</span>
+                          <span
                             className={`font-bold ${
                               loc.status ? "text-green-600" : "text-red-600"
                             }`}
                           >
                             {loc.status ? "فعال" : "غیر فعال"}
-                          </NextUI.Text>
+                          </span>
                         </div>
-                      </NextUI.Card.Footer>
-                    </NextUI.Card.Body>
-                  </NextUI.Card>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </Popup>
             </Marker>
