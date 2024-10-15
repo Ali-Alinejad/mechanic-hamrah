@@ -34,22 +34,9 @@ const customIcon = new L.Icon({
   popupAnchor: [0, -35],
 });
 
-function LocationMarker({ onClick }) {
-  const [position, setPosition] = useState(null);
-  const map = useMapEvents({
-    click(e) {
-      setPosition(e.latlng);
-      onClick(e.latlng.lat, e.latlng.lng);
-    },
-  });
-  return position === null ? null : (
-    <Marker position={position} icon={customIcon}>
-      <Popup>موقعیت انتخابی شما</Popup>
-    </Marker>
-  );
-}
 
-function MapIrMap({ onClick, selectedLocation }) {
+
+function MapIrMap({ onClick }) {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -114,14 +101,7 @@ function MapIrMap({ onClick, selectedLocation }) {
               <Popup>موقعیت شما</Popup>
             </Marker>
           )}
-          {selectedLocation && (
-            <Marker
-              position={[selectedLocation.lat, selectedLocation.lng]}
-              icon={customIcon}
-            >
-              <Popup>موقعیت انتخابی</Popup>
-            </Marker>
-          )}
+
           {locations.map((loc) => (
             <Marker
               key={loc.id}
@@ -129,13 +109,53 @@ function MapIrMap({ onClick, selectedLocation }) {
               icon={customIcon}
             >
               <Popup>
-                <strong>{loc.name}</strong>
-                <br />
-                آدرس: {loc.address}
+                <div className="p-3">
+                  <NextUI.Card className="shadow-lg rounded-lg">
+                    <NextUI.Card.Header className="bg-blue-600 text-white rounded-t-lg">
+                      <NextUI.Text h3>{loc.name}</NextUI.Text>
+                    </NextUI.Card.Header>
+                    <NextUI.Card.Body>
+                      <NextUI.Text className="text-gray-700 mb-2">
+                        آدرس: {loc.address}
+                      </NextUI.Text>
+                      <div className="flex items-center justify-between mt-2 mb-2">
+                        <NextUI.Text className="text-gray-600 font-medium">
+                          تلفن:
+                        </NextUI.Text>
+                        <NextUI.Input
+                          className="w-full"
+                          value={loc.status ? loc.phone : "کاربر غیر فعال است"}
+                          readOnly
+                        />
+                      </div>
+                      <div className="flex items-center justify-between bg-blue-50 p-2 rounded-md shadow-sm mb-2">
+                        <NextUI.Text className="text-blue-600 font-bold">
+                          نوع:
+                        </NextUI.Text>
+                        <NextUI.Badge>{loc.type}</NextUI.Badge>
+                      </div>
+                      <NextUI.Card.Footer
+                        className={`mt-2 p-2 rounded-md shadow-sm ${
+                          loc.status ? "bg-green-50" : "bg-red-50"
+                        }`}
+                      >
+                        <div className="flex justify-around w-full">
+                          <NextUI.Text>⭐{loc.score}</NextUI.Text>
+                          <NextUI.Text
+                            className={`font-bold ${
+                              loc.status ? "text-green-600" : "text-red-600"
+                            }`}
+                          >
+                            {loc.status ? "فعال" : "غیر فعال"}
+                          </NextUI.Text>
+                        </div>
+                      </NextUI.Card.Footer>
+                    </NextUI.Card.Body>
+                  </NextUI.Card>
+                </div>
               </Popup>
             </Marker>
           ))}
-          <LocationMarker onClick={onClick} />
         </MapContainer>
       )}
       <div className="flex-row-reverse flex">

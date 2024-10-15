@@ -1,8 +1,8 @@
 "use client";
-
 import React, { useState } from "react";
+import { supabase } from "../SupaBase/supabaseClient";
 
-function Filter() {
+function Filter({ onFilterChange }) {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleOptionChange = (option) => {
@@ -14,8 +14,21 @@ function Filter() {
   };
 
   const handleApply = () => {
-    console.log("Selected options:", selectedOptions);
-   
+    fetchFilteredData(selectedOptions);
+  };
+
+  const fetchFilteredData = async (options) => {
+    const { data, error } = await supabase
+      .from("Type")
+      .select("*")
+      .in("service_type", options);
+
+    if (error) {
+      console.error("Error fetching filtered data:", error);
+    } else {
+      console.log("Filtered data:", data);
+      onFilterChange(data); // ارسال داده‌های فیلتر شده به کامپوننت پدر
+    }
   };
 
   return (
