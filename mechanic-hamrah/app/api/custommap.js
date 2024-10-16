@@ -168,7 +168,7 @@ function MapIrMap({ onClick }) {
                                 loc.status ? "text-green-600" : "text-red-600"
                               }`}
                             >
-                              {loc.status ? "فعال" : "غیر فعال"}
+                              {loc.status ? "فعال" : " غیر فعال"}
                             </span>
                           </div>
                         </div>
