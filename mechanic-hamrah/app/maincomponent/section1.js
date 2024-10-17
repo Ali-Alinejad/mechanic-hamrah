@@ -2,19 +2,33 @@
 
 import { Button, Spinner } from "@nextui-org/react";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
-import Navigation from "../components/Navigation";
 import { motion } from "framer-motion"; // اضافه کردن framer-motion
 
 function Section1() {
   const [loading, setLoading] = useState(true);
 
   const sections = [
-    { id: 1, label: "مکانیکی", bgColor: "bg-red-500" },
-    { id: 2, label: "یدک کش", bgColor: "bg-blue-500" },
-    { id: 3, label: "متخصص", bgColor: "bg-green-500" },
-    { id: 4, label: "آپاراتی", bgColor: "bg-yellow-500" },
+    {
+      id: 1,
+      label: "مکانیکی",
+      des: "تیم ما شامل بهترین مکانیک‌ها است که با تجربه و تخصص خود به شما کمک می‌کنند تا مشکلات خودرویتان را به سرعت حل کنید.",
+    },
+    {
+      id: 2,
+      label: "یدک کش",
+      des: "خدمات یدک کشی ما به صورت 24 ساعته در دسترس شماست تا در مواقع اضطراری به شما کمک کند.",
+    },
+    {
+      id: 3,
+      label: "متخصص",
+      des: "متخصصان ما در زمینه‌های مختلف خودرو آماده‌اند تا بهترین خدمات را به شما ارائه دهند.",
+    },
+    {
+      id: 4,
+      label: "آپاراتی",
+      des: "تیم آپاراتی ما با تجهیزات پیشرفته و مهارت‌های حرفه‌ای، خدمات با کیفیتی را ارائه می‌دهد.",
+    },
   ];
 
   const images = [
@@ -24,7 +38,7 @@ function Section1() {
     },
     {
       id: 2,
-      src: "https://thumbs.dreamstime.com/b/red-broken-car-red-towing-truck-closeup-photo-vehicle-mechanical-problem-road-broken-car-towing-truck-124264503.jpg",
+      src: "https://png.pngtree.com/thumb_back/fh260/background/20240409/pngtree-crashed-car-loading-into-tow-truck-after-traffic-accident-on-road-image_15651796.jpg",
     },
     {
       id: 3,
@@ -38,53 +52,55 @@ function Section1() {
 
   return (
     <>
-      <Navigation />
-
-      <h1 className="text-center justify-center pt-12 text-4xl w-full bg-gradient-to-r from-indigo-600 to-blue-700 text-white h-40  ">
+      <h1 className="text-center pt-12 text-4xl w-full text-blue-600 font-semibold">
         نزدیک ترین خدمات به شما
       </h1>
 
-      <div className="text-center h-[75vh]  w-[80%] mx-auto mt-10 h-fit">
-        <div className="grid md:grid-cols-4 gap-4">
-          {sections.map((section) => {
+      <div className="text-center w-[80%] mx-auto mt-20">
+        <div className="grid md:grid-cols-1 gap-10">
+          {sections.map((section, index) => {
             const image = images.find((img) => img.id === section.id);
             return (
               <motion.div
                 key={section.id}
-                className={`h-[37vh] border-2 relative ${section.bgColor} rounded-lg overflow-hidden shadow-2xl`}
-                initial={{ y: 100, opacity: 0, scale: 0.95 }}
-                animate={{ y: 0, opacity: 1 }}
-                whileHover={{ scale: 1.05 }}
+                className={`flex items-center ${
+                  index % 2 === 0 ? "flex-row" : "flex-row-reverse"
+                } h-[40vh] border-b border-gray-300 p-4 shadow-lg transition-transform transform hover:scale-105`}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }} // انیمیشن خروج
+                viewport={{ once: false }}
                 transition={{
-                  type: "spring",
-                  stiffness: 100,
-                  delay: section.id * 0.1,
+                  duration: 0.5,
+                  delay: index * 0.2,
                 }}
               >
-                <div className="absolute inset-0 bg-black opacity-40"></div>
-
-                {loading && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Spinner />
-                  </div>
-                )}
-
-                <Image
-                  className="text-center mx-auto overflow w-full h-full object-cover"
-                  src={image.src}
-                  width={800}
-                  height={400}
-                  onLoad={() => setLoading(false)}
-                  alt={section.label}
-                />
-                <Link href="/account">
-                  <Button
-                    className="absolute text-xl bg-white top-[40%] rounded-md shadow-md left-[27%] w-[40%] h-12 hover:bg-gray-200 transition duration-300"
-                    onClick={() => console.log("not login")}
-                  >
+                <div className="relative w-1/2 h-full">
+                  {loading && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Spinner />
+                    </div>
+                  )}
+                  <Image
+                    className="w-full h-full object-cover rounded-lg"
+                    src={image.src}
+                    width={800}
+                    height={400}
+                    onLoad={() => setLoading(false)}
+                    alt={section.label}
+                    loading="lazy"
+                  />
+                </div>
+                <div className="w-1/2 p-4 text-gray-800">
+                  <h2 className="text-xl font-bold text-blue-500">
                     {section.label}
+                  </h2>
+                  <p className="mt-2 text-gray-600">{section.des}</p>
+                  {/* اضافه کردن دکمه برای تعامل بیشتر */}
+                  <Button color="primary" className="mt-4">
+                    اطلاعات بیشتر
                   </Button>
-                </Link>
+                </div>
               </motion.div>
             );
           })}
