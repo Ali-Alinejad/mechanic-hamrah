@@ -1,7 +1,7 @@
 function Section3() {
     return (
       <>
-        <div className="h-[70vh] bg-slate-500"></div>
+        <div className="h-[60vh] bg-slate-500"></div>
       </>
     );
 }

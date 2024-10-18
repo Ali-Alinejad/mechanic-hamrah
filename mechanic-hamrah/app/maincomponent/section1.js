@@ -56,7 +56,7 @@ function Section1() {
         نزدیک ترین خدمات به شما
       </h1>
 
-      <div className="text-center w-[80%] mx-auto mt-20">
+      <div className="text-center w-[80%] mx-auto my-20">
         <div className="grid md:grid-cols-1 gap-10">
           {sections.map((section, index) => {
             const image = images.find((img) => img.id === section.id);
