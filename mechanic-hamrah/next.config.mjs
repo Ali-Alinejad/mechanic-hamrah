@@ -10,6 +10,7 @@ const nextConfig = {
       "hypertire.com",
       "png.pngtree.com",
       "i.pravatar.cc",
+    
     ],
   },
 };

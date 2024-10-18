@@ -1,4 +1,5 @@
 
+import { ImQrcode } from "react-icons/im";
 import Footer from "./components/footer";
 import Navigation from "./components/Navigation";
 import Section1 from "./maincomponent/section1";
@@ -9,11 +10,12 @@ export default function page() {
   return (
     <>
       <div className="">
-         <Navigation  className="fixed"/>
+        <Navigation className="fixed" />
         <Section3 />
-        <Section2 /> 
+        <Section2 />
         <Section1 />
-        <Footer/>
+        <Footer />
+      
       </div>
     </>
   );
