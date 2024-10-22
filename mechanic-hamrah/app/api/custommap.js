@@ -6,6 +6,7 @@ import { Button, Spinner } from "@nextui-org/react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
+// Default marker icon settings
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -13,6 +14,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
+// User location icon
 const userLocationIcon = new L.Icon({
   iconUrl: "https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png",
   iconSize: [35, 35],
@@ -20,6 +22,7 @@ const userLocationIcon = new L.Icon({
   popupAnchor: [0, -35],
 });
 
+// Custom marker icon
 const customIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
   iconSize: [35, 35],
@@ -27,23 +30,22 @@ const customIcon = new L.Icon({
   popupAnchor: [0, -35],
 });
 
+// Function to calculate distance between two geographical points
 const getDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371; // Radius of the Earth in km
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
-
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(lat1 * (Math.PI / 180)) *
       Math.cos(lat2 * (Math.PI / 180)) *
       Math.sin(dLon / 2) *
       Math.sin(dLon / 2);
-
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
   return R * c; // Distance in kilometers
 };
 
+// Map event handler component
 function MapEventHandler({ onClick }) {
     useMapEvents({
         click: (event) => {
@@ -53,6 +55,7 @@ function MapEventHandler({ onClick }) {
     return null;
 }
 
+// Main map component
 function MapIrMap() {
     const [location, setLocation] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -61,6 +64,7 @@ function MapIrMap() {
     const [clickedPosition, setClickedPosition] = useState(null);
     const [distanceToMarker, setDistanceToMarker] = useState(null); // State to hold distance to clicked marker
 
+    // Get user's current location
     const handleLocationClick = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -81,6 +85,7 @@ function MapIrMap() {
         }
     };
 
+    // Fetch locations from Supabase
     const fetchLocations = async () => {
         let { data, error } = await supabase.from("Type").select("*");
         if (error) {
@@ -90,14 +95,15 @@ function MapIrMap() {
         }
     };
 
+    // Handle map click event
     const handleMapClick = (event) => {
         const { latlng } = event; // Get latlng directly from event
         console.log(`Clicked at: ${latlng.lat}, ${latlng.lng}`); // Log coordinates
         setClickedPosition(latlng); // Set clicked position
-        setDistanceToMarker(null); // Reset distance when clicking on the map
+        setDistanceToMarker(null);
     };
 
-    // Calculate distance when clicking on a marker
+    // Handle marker click event
     const handleMarkerClick = (loc) => {
         if (location) {
             const distance = getDistance(location.latitude, location.longitude, loc.lat, loc.lon);
@@ -147,9 +153,7 @@ function MapIrMap() {
                                                 <span className="text-gray-600 font-medium">تلفن:</span>
                                                 <input
                                                     className="w-full border border-gray-300 rounded-md p-2"
-                                                    value={
-                                                        loc.status ? loc.phone : "کاربر غیر فعال است"
-                                                    }
+                                                    value={loc.status ? loc.phone : "کاربر غیر فعال است"}
                                                     readOnly
                                                 />
                                             </div>
@@ -161,29 +165,24 @@ function MapIrMap() {
                                             </div>
                                             {/* Star Rating */}
                                             <div className="flex justify-around w-full">
-                            <span> ⭐{loc.score}</span>
-                            <span
-                              className={`font-bold ${
-                                loc.status ? "text-green-600" : "text-red-600"
-                              }`}
-                            >
-                              {loc.status ? "فعال" : " غیر فعال"}
-                            </span>
-                          </div>
-                                           
-                                            {distanceToMarker && (
-                                                <p className="text-gray-700 p-1">
-                                                    فاصله تا شما: {distanceToMarker} کیلومتر
-                                                </p>
-                                            )}
+                                                <span> ⭐{loc.score}</span>
+                                                <span className={`font-bold ${loc.status ? "text-green-600" : "text-red-600"}`}>
+                                                    {loc.status ? "فعال" : " غیر فعال"}
+                                                </span>
+                                            </div>
+
+                                            {/* Distance Display */}
+                                            <p className="text-gray-700 p-1">
+                                                فاصله تا شما: {distanceToMarker && distanceToMarker < 1 ? (distanceToMarker * 1000).toFixed(0) : Math.round(distanceToMarker)}{" "}
+                                                {distanceToMarker && distanceToMarker < 1 ? "متر" : "کیلومتر"}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </Popup>
                         </Marker>
                     ))}
-
-                    {/* Render clicked marker if exists */}
+                    
                     {clickedPosition && (
                         <Marker position={[clickedPosition.lat, clickedPosition.lng]} icon={customIcon}>
                             <Popup>نقطه انتخاب شده<br />{`Lat: ${clickedPosition.lat}, Lng: ${clickedPosition.lng}`}</Popup>
