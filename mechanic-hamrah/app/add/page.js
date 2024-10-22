@@ -10,6 +10,8 @@ function Page() {
 
   const handleMapClick = (lat, lng) => {
     setSelectedLocation({ lat, lng });
+    console.log(selectedLocation);
+
   };
 
   return (
