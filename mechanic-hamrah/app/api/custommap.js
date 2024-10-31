@@ -113,7 +113,6 @@ function MapIrMap({ onClick }) {
           )}
 
           {locations.map((loc) => {
-            // محاسبه فاصله
             const distance = getDistance(
               location.latitude,
               location.longitude,

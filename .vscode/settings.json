@@ -1,7 +1,11 @@
 {
   "cSpell.words": [
     "latlng",
+    "supabase",
     "tailwindcss",
     "جغرافیایی"
+  ],
+  "cSpell.ignoreWords": [
+    "اینجا"
   ]
 }
