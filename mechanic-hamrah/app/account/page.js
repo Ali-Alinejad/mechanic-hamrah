@@ -65,7 +65,7 @@ function Login() {
           ورود به حساب
         </h3>
 
-        <div className="flex justify-between mb-4 ">
+        <div className="flex justify-between mb-4  flex-row-reverse">
           <Button
             className={`w-full ${
               authMethod === "email" ? "bg-blue-500" : "bg-gray-500"
@@ -123,7 +123,7 @@ function Login() {
             ) : (
               <>
                 <div className="flex items-center mb-4">
-                  <span className="mr-2 text-gray-600">+98</span>
+                  <span className="mr-2 text-gray-100">+98</span>
                   <Input
                     className="flex-grow p-2 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     id="phone"
