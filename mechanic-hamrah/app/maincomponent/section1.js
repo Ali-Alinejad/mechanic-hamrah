@@ -34,7 +34,8 @@ function Section1() {
   const images = [
     {
       id: 1,
-      src: "https://static.vecteezy.com/system/resources/previews/007/788/906/large_2x/auto-repair-shop-red-suv-car-is-lift-in-garage-for-repair-and-maintenance-service-auto-service-with-lifted-vehicle-car-body-lifted-in-workshop-for-inspection-car-check-up-at-service-station-photo.jpg",
+      src: "https://png.pngtree.com/thumb_back/fw800/background/20231221/pngtree-professional-car-mechanic-changing-oil-in-car-engine-at-repair-service-photo-image_15530990.png",
+    
     },
     {
       id: 2,
@@ -96,7 +97,7 @@ function Section1() {
                     {section.label}
                   </h2>
                   <p className="mt-2 text-gray-600">{section.des}</p>
-                  {/* اضافه کردن دکمه برای تعامل بیشتر */}
+               
                   <Button color="primary" className="mt-4">
                     اطلاعات بیشتر
                   </Button>
