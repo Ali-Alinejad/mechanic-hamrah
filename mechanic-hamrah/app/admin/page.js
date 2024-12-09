@@ -1,10 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Bar, Line, Doughnut, Radar } from "react-chartjs-2";
+import { Bar, Line,   } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend, ArcElement, RadialLinearScale } from "chart.js";
+import { Button, Spinner } from "@nextui-org/react";
+import { supabase } from "../SupaBase/supabaseClient";
 
-// Register Chart.js components
+
+
+
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -18,15 +23,28 @@ ChartJS.register(
   RadialLinearScale
 );
 
+
 const Dashboard = () => {
-  const [requests, setRequests] = useState([]);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+
+    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [ListPending, setListPending] = useState([]); 
+    const [Load, setLoad] = useState(true); 
+
+        const fetchLocations = async () => {
+            try {
+              const { data: pending, error } = await supabase.from('pending').select('*');
+              if (error) throw error;
+              setListPending(pending || []);
+              setLoad(false);
+            } catch (error) {
+              console.error("Error fetching locations:", error.message);
+            }
+          };
+          
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
   };
-
-  // Sample data for the line chart
   const lineData = {
     labels: ["January", "February", "March", "April", "May", "June"],
     datasets: [
@@ -54,7 +72,11 @@ const Dashboard = () => {
   };
 
 
+  useEffect(() => {
+    fetchLocations();
+  }, []);
   return (
+    
     <div className={isDarkMode ? " bg-gray-900 text-white h-[100vh]" : " bg-gray-100 text-black h-[100vh]"}>
       <div className="flex justify-between p-4 items-center m-0 p-0 bg-blue-800 text-white shadow-lg">
         <div>
@@ -116,27 +138,49 @@ const Dashboard = () => {
   </div>
 
   {/* Pending Requests Table */}
-  <div className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} rounded-lg shadow-lg row-start-1 row-span-4 col-span-2`}>
-    <h2 className="text-lg font-semibold">Pending Requests</h2>
+  <div className={`text-center ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} rounded-lg shadow-lg row-start-1 row-span-4 col-span-2`}>
+    <h2 className="text-xl py-2 text-gray-500  w-full font-semibold">جدول وضعیت</h2>
+    {Load && <Spinner  color="primary" className="scale-150 z-10"/>}
+
     <div className="overflow-x-auto mt-4">
       <table className="min-w-full">
         <thead>
           <tr className={`${isDarkMode ? 'border-gray-700' : 'border-gray-300'}`}>
-            <th className="py-2 px-4">ID</th>
-            <th className="py-2 px-4">Name</th>
-            <th className="py-2 px-4">Type</th>
-            <th className="py-2 px-4">Status</th>
+            <th className="py-2 px-4">حالت</th>
+            <th className="py-2 px-4">وضعیت</th>
+            <th className="py-2 px-4">نوع</th>
+            <th className="py-2 px-4">آدرس</th>
+            <th className="py-2 px-4">نام</th>
+            <th className="py-2 px-4">کد</th>
+
           </tr>
         </thead>
         <tbody>
-          {requests.filter((req) => req.status === "pending").map((request) => (
-            <tr key={request.id} className={`${isDarkMode ? 'border-gray-700' : 'border-gray-300'}`}>
-              <td className="py-2 px-4">{request.id}</td>
-              <td className="py-2 px-4">{request.name}</td>
-              <td className="py-2 px-4">{request.type}</td>
-              <td className="py-2 px-4">{request.status}</td>
-            </tr>
-          ))}
+            {ListPending.map((list =>
+            {
+        
+                    return <tr key={list.id} className={`text-center items-center border-y-1  ${isDarkMode ? 'border-gray-700' : 'border-gray-300'}`}>
+
+                        <td className="py-2 px-4"><Button color="primary" className="rounded-3xl">نمایش</Button></td>
+
+                        <td className="py-2 px-4 ">
+                        <label 
+                        className={` bg-transparent p-2 rounded-full ${list.check ==='pending' ? 'text-amber-500  ring-2 ring-amber-500' : ''
+                            ||  list.check ==='rejected' ? 'text-red-500 ring-2  ring-red-500' : '' 
+                            || list.check ==='accepted' ? 'text-green-500 ring-2  ring-green-500' : ''  }`}>
+                            {list.check ==='pending' ? 'جدید' :'' 
+                            ||  list.check ==='accepted' ? 'تایید  ':'' 
+                            ||  list.check ==='rejected' ? 'مردود ':''}
+                            </label>
+                            </td>
+                        <td className="py-2 px-4">{list.type}</td>
+                        <td className="py-2 px-4">{list.address} </td>
+                        <td className="py-2 px-4">{list.name} </td>
+                        <td className="py-2 px-4 ">{list.id}</td>
+
+                    </tr>;
+                }
+            ))}
         </tbody>
       </table>
     </div>
