@@ -48,9 +48,18 @@ function Navigation() {
         <li className="p-4 hover:text-blue-500 transition duration-300">
           <Link href="/account">
             <Button className="bg-blue-600 hover:bg-blue-600 text-white rounded-md px-4 py-2">
-              ورود
+              ورود کاربر
             </Button>
           </Link>
+          
+        </li>
+        <li className="p-4 hover:text-blue-500 transition duration-300">
+          <Link href="/admin">
+            <Button className="bg-blue-600 hover:bg-blue-600 text-white rounded-md ">
+              ورود ادمین
+            </Button>
+          </Link>
+          
         </li>
       </ul>
 
