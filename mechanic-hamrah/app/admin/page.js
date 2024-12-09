@@ -19,12 +19,11 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+  const [requests, setRequests] = useState([]);
   const [locationsCount, setLocationsCount] = useState({
     total: 0,
     mechanic: 0,
-    aparati: 0,
-    yadakkesh: 0,
-
+    repair: 0,
   });
   const [isDarkMode, setIsDarkMode] = useState(true);
 
@@ -66,7 +65,7 @@ const Dashboard = () => {
     datasets: [
       {
         label: "Locations Count",
-        data: [100, 50, 30],
+        data: [locationsCount.total, locationsCount.mechanic, locationsCount.repair],
         backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
         hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
       },
@@ -90,18 +89,20 @@ const Dashboard = () => {
     ],
   };
 
-  // Static values for locations count
   useEffect(() => {
-    setLocationsCount({
-      total: 100,
-      mechanic: 50,
-      repair: 30,
-    });
+    // Example: Fetch data from an API
+    fetch("/api/requests") // Replace with your actual endpoint
+      .then((response) => response.json())
+      .then((data) => setRequests(data));
+
+    fetch("/api/locations/count") // Replace with your actual endpoint
+      .then((response) => response.json())
+      .then((data) => setLocationsCount(data));
   }, []);
 
   return (
-    <div className={isDarkMode ? "h-[80vh] bg-gray-900 text-white overflow-hidden" : "h-[100vh] bg-gray-100 text-black overflow-hidden"}>
-      <div className="flex justify-between p-6 items-center bg-blue-800 text-white shadow-lg">
+    <div className={isDarkMode ? "h-[80vh] bg-gray-900 text-white" : "h-[80vh] bg-gray-100 text-black"}>
+       <div className="flex justify-between p-6 items-center bg-blue-800 text-white shadow-lg">
         <div>
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         </div>
@@ -117,7 +118,10 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="p-6 flex flex-cols-1 md:flex-cols-2 xl:flex-cols-3 gap-4 w-full justify-around items-center">
+
+
+
+      <div className="p-4 flex flex-cols-1 md:flex-cols-2 xl:flex-cols-3 gap-4 w-full justify-around items-center">
         {/* Total Locations */}
         <div className={isDarkMode ? "bg-gray-800 p-4 rounded-lg shadow-lg h-40 w-full justify-center items-center flex flex-col " : 'bg-gray-100 p-4 rounded-lg shadow-lg h-40 w-full justify-center items-center flex flex-col'}>
           <h2 className="text-lg font-semibold">Total Locations</h2>
@@ -132,7 +136,7 @@ const Dashboard = () => {
           <p className="text-md font-bold text-gray-500">مجموع</p>
           </div>
         </div>
-        
+
 
         {/* Mechanic Locations */}
         <div className={isDarkMode ? "bg-gray-800 p-4 rounded-lg shadow-lg h-40 w-full justify-center items-center flex flex-col" : 'bg-gray-100 p-4 rounded-lg shadow-lg h-40 w-full justify-center items-center flex flex-col'}>
@@ -148,22 +152,28 @@ const Dashboard = () => {
 
       </div>
 
-      <div className="p-6 gap-4 h-[30vh]">
-        <div className={isDarkMode ? "bg-gray-800 p-4 rounded-lg shadow-lg grid grid-cols-3 xl:grid-cols-3" : 'bg-gray-100 p-4 rounded-lg shadow-lg grid grid-cols-3 xl:grid-cols-3'}>
+
+      
+      <div className="p-2 grid grid-cols-4 grid-rows-2 gap-6">
+
+        <div className= "bg-gray-800 p-4 rounded-lg shadow-lg  row-span-2 col-start-3" >
           <h2 className="text-lg font-semibold">Requests Over Time (Line Chart)</h2>
           <Line data={lineData} />
+        </div>
+
+        <div className=  "bg-gray-800 p-4 rounded-lg shadow-lg  row-span-2 col-start-4">
           <h2 className="text-lg font-semibold">Requests Status (Bar Chart)</h2>
           <Bar data={barData} />
-          <div className={isDarkMode ? "bg-gray-800 p-4 rounded-lg shadow-lg" : 'bg-gray-100 p-4 rounded-lg shadow-lg'}>
-            <h2 className="text-lg font-semibold">Service Metrics (Radar Chart)</h2>
-            <Radar data={radarData} />
-          </div>
         </div>
+        <div className={isDarkMode ?   "bg-gray-800 h-[45vh] rounded-lg  col-span-2 row-span-2 col-start-3 row-start-3" : 'bg-gray-100 h-[45vh] rounded-lg shad col-span-2 row-span-2 col-start-3 row-start-3'}>
+        <h2 className="text-lg font-semibold">Service Metrics (Radar Chart)</h2>
+        <Radar data={radarData} />
       </div>
+      
 
-      <div className={isDarkMode ? "bg-gray-800 p-6 rounded-lg shadow-lg h-[40vh]" : "bg-gray-100 p-6 rounded-lg shadow-lg h-[40vh]"}>
-        <h2 className="text-lg font-semibold">Pending Requests</h2>
-        <div className="overflow-y-auto mt-4 h-[70%]">
+      <div className={isDarkMode ? "bg-gray-800 rounded-lg shadow-lg col-span-2 row-span-4" : "bg-gray-100 rounded-lg shadow-lg col-span-2 row-span-4"}>     
+       <h2 className="text-lg font-semibold">Pending Requests</h2>
+        <div className="overflow-x-auto mt-4">
           <table className="min-w-full">
             <thead>
               <tr className="border-b border-gray-700">
@@ -174,8 +184,7 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {/* Static table data */}
-              {[{ id: 1, name: "Request 1", type: "Repair", status: "pending" }].map((request) => (
+              {requests.filter((req) => req.status === "pending").map((request) => (
                 <tr key={request.id} className="border-b border-gray-700">
                   <td className="py-2 px-4">{request.id}</td>
                   <td className="py-2 px-4">{request.name}</td>
@@ -188,6 +197,8 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
+    </div>
+
   );
 };
 
