@@ -5,7 +5,7 @@ import { Bar, Line,   } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend, ArcElement, RadialLinearScale } from "chart.js";
 import { Button, Spinner } from "@nextui-org/react";
 import { supabase } from "../SupaBase/supabaseClient";
-
+import TimeShow from './time/timeShow'
 
 
 
@@ -78,7 +78,7 @@ const Dashboard = () => {
   return (
     
     <div className={isDarkMode ? " bg-gray-900 text-white h-[100vh]" : " bg-gray-100 text-black h-[100vh]"}>
-      <div className="flex justify-between p-4 items-center m-0 p-0 bg-blue-800 text-white shadow-lg">
+      <div className="flex justify-between p-4 items-center m-0  bg-blue-800 text-white shadow-lg">
         <div>
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         </div>
@@ -91,7 +91,7 @@ const Dashboard = () => {
 
       <button
   onClick={toggleTheme}
-  className={`w-16 h-16 absolute bottom-14 right-10 ring-2 ring-gray-400 rounded-full transition-all duration-300 
+  className={`w-12 h-12 absolute bottom-20 right-20 ring-2 ring-gray-400 rounded-full transition-all duration-300 
     ${isDarkMode 
       ? "bg-white text-black shadow-inner hover:bg-yellow-100 hover:scale-110 hover:rotate-12" 
       : "bg-gray-900 text-white shadow-inner hover:bg-gray-700 hover:scale-110 hover:rotate-12"}`}
@@ -102,7 +102,7 @@ const Dashboard = () => {
 
 
 <div className={`p-4 grid grid-cols-4 grid-rows-4 gap-4 h-[90vh] ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
-  {/* Total Locations */}
+ 
   <div className={`col-span-2 row-span-2 col-start-3 row-start-3 p-4 rounded-lg  flex flex-col justify-center items-center ${isDarkMode ? 'bg-transparent text-white' : 'bg-transparent text-black'}`}>
 
 <div className="grid grid-cols-2 grid-rows-2 gap-8 justify-items-stretch place-items-stretch">
@@ -121,23 +121,25 @@ const Dashboard = () => {
     </div>
       <div className={`shadow-lg w-[440px]   p-4 rounded-lg ${isDarkMode ? 'bg-gray-800 text-white' : ' text-black bg-white'}`}>2</div>
     <div className={`shadow-lg w-[440px]   p-4 rounded-lg ${isDarkMode ? 'bg-gray-800 text-white' : ' text-black bg-white'}`}>3</div>
-    <div className={`shadow-lg w-[440px]  p-4 rounded-lg ${isDarkMode ? 'bg-gray-800 text-white' : ' text-black bg-white'}`}>4</div>
+    <div className={`shadow-lg w-[440px]  p-4 rounded-lg ${isDarkMode ? 'bg-gray-800 text-white' : ' text-black bg-white'}`}>
+        <TimeShow />
+        </div>
   </div>
 </div>
 
-  {/* Requests Over Time (Line Chart) */}
+
   <div className={`row-span-2 col-start-3 p-4 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
     <h2 className="text-lg font-semibold">Requests Over Time (Line Chart)</h2>
     <Line data={lineData} />
   </div>
 
-  {/* Requests Status (Bar Chart) */}
+ 
   <div className={`row-span-2 col-start-4 p-4 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
     <h2 className="text-lg font-semibold">Requests Status (Bar Chart)</h2>
     <Bar data={barData} />
   </div>
 
-  {/* Pending Requests Table */}
+
   <div className={`text-center ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} rounded-lg shadow-lg row-start-1 row-span-4 col-span-2`}>
     <h2 className="text-xl py-2 text-gray-500  w-full font-semibold">جدول وضعیت</h2>
     {Load && <Spinner  color="primary" className="scale-150 z-10"/>}
