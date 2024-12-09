@@ -69,31 +69,39 @@ const Dashboard = () => {
 
       <button
   onClick={toggleTheme}
-  className={`w-16 h-16 absolute bottom-14 right-10 ring-4 rounded-full transition-all duration-300 
+  className={`w-16 h-16 absolute bottom-14 right-10 ring-2 ring-gray-400 rounded-full transition-all duration-300 
     ${isDarkMode 
-      ? "bg-white text-black shadow-2xl hover:bg-blue-500 hover:scale-110 hover:rotate-12" 
-      : "bg-gray-900 text-white shadow-lg hover:bg-gray-700 hover:scale-110 hover:rotate-12"}`}
+      ? "bg-white text-black shadow-inner hover:bg-yellow-100 hover:scale-110 hover:rotate-12" 
+      : "bg-gray-900 text-white shadow-inner hover:bg-gray-700 hover:scale-110 hover:rotate-12"}`}
 >
-  <span className="text-xl">{isDarkMode ? "⋆｡˚☀️" : "‧₊˚ ☾. ⋅"}</span>
+  <span className="transition-all duration-300">{isDarkMode ? "⋆｡˚☀️" : "‧₊˚ ☾. ⋅"}</span>
 </button>
 
 
 
 <div className={`p-4 grid grid-cols-4 grid-rows-4 gap-4 h-[90vh] ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
   {/* Total Locations */}
-  <div className={`col-span-2 row-span-2 col-start-3 row-start-3 p-4 rounded-lg shadow-lg flex flex-col justify-center items-center ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
-    <h2 className="text-lg font-semibold">Total Locations</h2>
+  <div className={`col-span-2 row-span-2 col-start-3 row-start-3 p-4 rounded-lg  flex flex-col justify-center items-center ${isDarkMode ? 'bg-transparent text-white' : 'bg-transparent text-black'}`}>
+
+<div className="grid grid-cols-2 grid-rows-2 gap-8 justify-items-stretch place-items-stretch">
+    <div className={`" shadow-lg w-[440px]   p-4 rounded-lg text-center  " ${isDarkMode ? 'bg-gray-800 text-white' : ' text-black bg-white'} `}>
+    <h2 className="text-lg font-semibold ">مجموع</h2>
     <div className="flex w-full justify-center gap-20 pt-2 items-center">
       <p className="text-4xl font-bold text-red-600">16</p>
       <p className="text-4xl font-bold text-green-500">75</p>
-      <p className="text-4xl font-bold">101</p>
+      <p className="text-4xl font-bold">91</p>
     </div>
     <div className="flex w-full justify-center gap-20 pt-2 items-center">
-      <p className="text-md font-bold text-gray-500">غیرفعال</p>
-      <p className="text-md font-bold text-gray-500 pr-4">فعال</p>
-      <p className="text-md font-bold text-gray-500">مجموع</p>
+      <p className="text-sm font-bold text-gray-500  ">غیرفعال</p>
+      <p className="text-sm font-bold text-gray-500  pr-4">فعال</p>
+      <p className="text-sm font-bold text-gray-500 ">مجموع</p>
+      </div>
     </div>
+      <div className={`shadow-lg w-[440px]   p-4 rounded-lg ${isDarkMode ? 'bg-gray-800 text-white' : ' text-black bg-white'}`}>2</div>
+    <div className={`shadow-lg w-[440px]   p-4 rounded-lg ${isDarkMode ? 'bg-gray-800 text-white' : ' text-black bg-white'}`}>3</div>
+    <div className={`shadow-lg w-[440px]  p-4 rounded-lg ${isDarkMode ? 'bg-gray-800 text-white' : ' text-black bg-white'}`}>4</div>
   </div>
+</div>
 
   {/* Requests Over Time (Line Chart) */}
   <div className={`row-span-2 col-start-3 p-4 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
