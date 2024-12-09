@@ -37,7 +37,7 @@ function Page() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 right-0 z-40 h-screen max-sm:w-96 transition duration-800 bg-white border-l border-gray-200 transition-transform ${
+        className={`fixed top-0 right-0 z-40 h-screen max-sm:w-96  duration-800 bg-white border-l border-gray-200 transition-transform ${
           isOpen ? "-translate-x-0" : "translate-x-full"
         } sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 w-[19%]`}
         aria-label="Sidebar"

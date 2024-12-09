@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
         <ReduxProvider>
           <NextUIProvider>
           
-            <main className="mt-4">{children}</main>
+            <main className="">{children}</main>
           </NextUIProvider>
         </ReduxProvider>
       </body>
