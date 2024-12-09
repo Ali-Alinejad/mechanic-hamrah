@@ -121,11 +121,18 @@ const Dashboard = () => {
         {/* Total Locations */}
         <div className={isDarkMode ? "bg-gray-800 p-4 rounded-lg shadow-lg h-40 w-full justify-center items-center flex flex-col " : 'bg-gray-100 p-4 rounded-lg shadow-lg h-40 w-full justify-center items-center flex flex-col'}>
           <h2 className="text-lg font-semibold">Total Locations</h2>
-          <p className="text-4xl font-bold">{locationsCount.total}</p>
-          <p className="text-4xl font-bold">{locationsCount.total}</p>
-          <p className="text-4xl font-bold">{locationsCount.total}</p>
-
+          <div className="flex w-full justify-center gap-20 pt-2 items-center">
+          <p className="text-4xl font-bold text-red-600">16</p>
+          <p className="text-4xl font-bold text-green-500">75</p>
+          <p className="text-4xl font-bold">101</p>
+          </div>
+          <div className="flex w-full justify-center gap-20 pt-2  items-center">
+          <p className="text-md font-bold text-gray-500">غیرفعال</p>
+          <p className="text-md font-bold text-gray-500 pr-4">فعال</p>
+          <p className="text-md font-bold text-gray-500">مجموع</p>
+          </div>
         </div>
+        
 
         {/* Mechanic Locations */}
         <div className={isDarkMode ? "bg-gray-800 p-4 rounded-lg shadow-lg h-40 w-full justify-center items-center flex flex-col" : 'bg-gray-100 p-4 rounded-lg shadow-lg h-40 w-full justify-center items-center flex flex-col'}>
