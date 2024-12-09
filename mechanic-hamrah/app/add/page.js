@@ -11,8 +11,7 @@ import {
 } from "react-leaflet";
 import Navigation from "../components/Navigation";
 import L from "leaflet";
-import { supabase } from "../SupaBase/supabaseClient"; // وارد کردن کلاینت Supabase
-import { isNumber } from "lodash";
+import { supabase } from "../SupaBase/supabaseClient";
 
 function LocationMarker({ setLatlng, setSelectedLocation }) {
   useMapEvents({
@@ -41,14 +40,13 @@ function Page() {
   const [rating, setRating] = useState(0);
   const [Type, SetType] = useState("آپاراتی");
   const [Id, SetId] = useState(0);
-
   const [latlng, setLatlng] = useState({ lat: "", lng: "" });
-  const handleSelect = (e) => { 
-    const selectedValue = e.target.value;
-      SetType(selectedValue);
-  }
 
- 
+  const handleSelect = (e) => {
+    const selectedValue = e.target.value;
+    SetType(selectedValue);
+  };
+
   const isFormValid = () => {
     return (
       shopName &&
@@ -59,9 +57,7 @@ function Page() {
       latlng.lng &&
       Type
     );
-  
   };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,23 +65,18 @@ function Page() {
       if (error) {
         console.error("Error fetching locations:", error);
       } else {
-  SetId(data.length + 1)
+        SetId(data.length + 1);
       }
     };
-  
-    return () => {
-      fetchData()
-    }
-  }, [])
-  
- 
 
-
+    fetchData();
+  }, []);
 
   const insertData = async (e) => {
     e.preventDefault();
+
     const dataToInsert = {
-      id:Id,
+      id: Id,
       name: shopName,
       phone: shopNumber,
       score: rating,
@@ -96,13 +87,14 @@ function Page() {
       status: true,
     };
 
-    console.log(dataToInsert);
-     const { data, error } = await supabase
-      .from('Type') 
-      .insert([dataToInsert]); 
+    console.log("Inserting data:", dataToInsert);
+
+    const { data, error } = await supabase
+      .from("Type")
+      .insert([dataToInsert]);
 
     if (error) {
-      console.error("Error inserting data:", error);
+      console.error("Error inserting data:", error.message);
       alert("خطا در ارسال اطلاعات. لطفاً دوباره تلاش کنید.");
     } else {
       console.log("اطلاعات ارسال شد", data);
@@ -112,20 +104,17 @@ function Page() {
       setRating(0);
       setLatlng({ lat: "", lng: "" });
       setSelectedLocation(null);
-      setType("");
+      SetType("");
     }
   };
 
   return (
     <>
       <Navigation />
-      <div className="flex justify-center items-start bg-gradient-to-tr from-blue-600 to-violet-600 min-h-screen w-full"
-      >
+      <div className="flex justify-center items-start bg-gradient-to-tr from-blue-600 to-violet-600 min-h-screen w-full">
         <div className="flex flex-row-reverse w-full max-w-6xl mx-auto space-x-4">
           <div className="w-[40%] m-4 p-6 bg-white rounded-lg shadow-xl rtl">
-            <h1 className="text-3xl font-bold mb-6 text-gray-800">
-              اطلاعات مغازه
-            </h1>
+            <h1 className="text-3xl font-bold mb-6 text-gray-800">اطلاعات مغازه</h1>
             <form className="space-y-6" onSubmit={insertData}>
               <Input
                 clearable
@@ -154,9 +143,7 @@ function Page() {
                 min={0}
                 max={5}
                 required
-               
                 onChange={(e) => setRating(Number(e.target.value))}
-               
               />
               <Input
                 clearable
@@ -188,10 +175,17 @@ function Page() {
                 />
               </div>
               <div className="w-full">
-              <RadioGroup label="نوع خدمات" orientation="horizontal" className="flex-row-reverse text-[12px]"
-               onChange={handleSelect}  
-                value={Type}>
-                <Radio value="یدک کش">یدک کش</Radio> <Radio value="مکانیکی">مکانیکی</Radio> <Radio value="آپاراتی">آپاراتی</Radio> </RadioGroup>
+                <RadioGroup
+                  label="نوع خدمات"
+                  orientation="horizontal"
+                  className="flex-row-reverse text-[12px]"
+                  onChange={handleSelect}
+                  value={Type}
+                >
+                  <Radio value="یدک کش">یدک کش</Radio>
+                  <Radio value="مکانیکی">مکانیکی</Radio>
+                  <Radio value="آپاراتی">آپاراتی</Radio>
+                </RadioGroup>
               </div>
               <Button
                 type="submit"
@@ -211,13 +205,11 @@ function Page() {
                 className="h-[70vh] w-[100%] overflow-hidden"
               >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
                 {selectedLocation && (
                   <Marker position={selectedLocation} icon={customIcon}>
                     <Popup>مغازه در اینجا قرار دارد.</Popup>
                   </Marker>
                 )}
-
                 <LocationMarker
                   setLatlng={setLatlng}
                   setSelectedLocation={setSelectedLocation}

@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "./rootReducer"; // مسیر صحیح به فایل reducers
+import rootReducer from "./rootReducer"; 
 
 const store = configureStore({
   reducer: {
-    auth: rootReducer, // اطمینان حاصل کنید که auth در اینجا وجود دارد
+    auth: rootReducer, 
   },
 });
 

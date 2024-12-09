@@ -1,5 +1,4 @@
 
-import { ImQrcode } from "react-icons/im";
 import Footer from "./components/footer";
 import Navigation from "./components/Navigation";
 import Section1 from "./maincomponent/section1";
