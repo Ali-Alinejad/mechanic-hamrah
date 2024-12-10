@@ -6,12 +6,12 @@ import { supabase } from "../SupaBase/supabaseClient";
 
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
 
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
 
   const handleLogin = async (e) => {
@@ -37,43 +37,35 @@ function Login() {
       alert("خطا در ارسال اطلاعات. لطفاً دوباره تلاش کنید.");
     } else {
       alert("اطلاعات ارسال شد", data);
-      setName("");
-      setPhone("");
+      setName('');
+      setPhone('');
       setEmail('');
-      setPassword("");
+      setPassword('');
       setUsername('');
     }
 };
 const handleSignin = async (e) => {
   e.preventDefault();
 
-  const dataToInsert = {
-    name: name,
-    phone: phone,
-    email: email,
-    active: true,
-    admin:false,
-    username: username,
-    password: password
-  };
-  console.log(dataToInsert)
-
-  const { data, error } = await supabase
+  const { data , error } = await supabase
     .from("Users")
-    .insert([dataToInsert]);
-
+    .select("*")
+    .eq("username", username)
+    .eq("password", password);
+    console.log(data)
   if (error) {
-    console.error("Error inserting data:", error.message);
-    alert("خطا در ارسال اطلاعات. لطفاً دوباره تلاش کنید.");
+    console.error("Error fetching data:", error.message);
+    alert("خطا در بررسی اطلاعات. لطفاً دوباره تلاش کنید.");
+  } else if (data.length === 0) {
+    alert("نام کاربری یا رمز عبور اشتباه است.");
+    
   } else {
-    alert("اطلاعات ارسال شد", data);
-    setName("");
-    setPhone("");
-    setEmail('');
-    setPassword("");
-    setUsername('');
+    alert("ورود موفقیت آمیز");
+    console.log("Logged in user:", data[0]);
+    
   }
 };
+
 
 
   const handleSignUpToggle = () => {
@@ -93,7 +85,7 @@ const handleSignin = async (e) => {
           {isSignUp ? "ایجاد حساب کاربری" : "ورود به سیستم"}
         </h3>
 
-   
+   <label className="text-white">نام کاربری</label>
         <Input
           className="w-full text-center p-3 border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           id="username"
@@ -102,6 +94,7 @@ const handleSignin = async (e) => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
+   <label className="text-white">رمز عبور</label>
 
         <Input
           className="w-full text-center p-3 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
