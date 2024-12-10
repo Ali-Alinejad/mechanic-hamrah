@@ -6,6 +6,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement,
 import { Button, Spinner } from "@nextui-org/react";
 import { supabase } from "../SupaBase/supabaseClient";
 import TimeShow from './time/timeShow'
+import ModalCheck from "./modalCheck/ModalCheck"
 
 
 
@@ -32,16 +33,20 @@ const Dashboard = () => {
 
         const fetchLocations = async () => {
             try {
-              const { data: pending, error } = await supabase.from('pending').select('*');
-              if (error) throw error;
-              setListPending(pending || []);
+              const { data: Type, error } = await supabase.from('Type').select('*');
               setLoad(false);
+              console.log(Load)
+
+              if (error) throw error;
+              setListPending(Type || []);
+
+
+
             } catch (error) {
               console.error("Error fetching locations:", error.message);
             }
-          };
-          
-
+          };       
+        
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
   };
@@ -70,7 +75,15 @@ const Dashboard = () => {
       },
     ],
   };
+  const handleModalOpen = (data) => {
+    setSelectedData(data);
+    setIsModalOpen(true);
+  };
 
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedData(null);
+  };
 
   useEffect(() => {
     fetchLocations();
@@ -163,16 +176,16 @@ const Dashboard = () => {
         
                     return <tr key={list.id} className={`text-center items-center border-y-1  ${isDarkMode ? 'border-gray-700' : 'border-gray-300'}`}>
 
-                        <td className="py-2 px-4"><Button color="primary" className="rounded-3xl">نمایش</Button></td>
+                        <td className="py-2 px-4"><ModalCheck/></td>
 
                         <td className="py-2 px-4 ">
                         <label 
-                        className={` bg-transparent p-2 rounded-full ${list.check ==='pending' ? 'text-amber-500  ring-2 ring-amber-500' : ''
-                            ||  list.check ==='rejected' ? 'text-red-500 ring-2  ring-red-500' : '' 
-                            || list.check ==='accepted' ? 'text-green-500 ring-2  ring-green-500' : ''  }`}>
-                            {list.check ==='pending' ? 'جدید' :'' 
-                            ||  list.check ==='accepted' ? 'تایید  ':'' 
-                            ||  list.check ==='rejected' ? 'مردود ':''}
+                        className={` bg-transparent p-2 rounded-full ${list.pending ? 'text-amber-500  ring-2 ring-amber-500' : ''
+                            ||  !list.check ? 'text-red-500 ring-2  ring-red-500' : '' 
+                            || list.check   ? 'text-green-500 ring-2  ring-green-500' : ''  }`}>
+                            {list.pending   ? 'جدید' : '' 
+                            || list.check   ? 'تایید':'' 
+                            || !list.check  ? 'مردود':''}
                             </label>
                             </td>
                         <td className="py-2 px-4">{list.type}</td>
