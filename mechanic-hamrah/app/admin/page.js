@@ -35,7 +35,6 @@ const Dashboard = () => {
             try {
               const { data: Type, error } = await supabase.from('Type').select('*');
               setLoad(false);
-              console.log(Load)
 
               if (error) throw error;
               setListPending(Type || []);
@@ -176,7 +175,7 @@ const Dashboard = () => {
         
                     return <tr key={list.id} className={`text-center items-center border-y-1  ${isDarkMode ? 'border-gray-700' : 'border-gray-300'}`}>
 
-                        <td className="py-2 px-4"><ModalCheck/></td>
+                        <td className="py-2 px-4"><ModalCheck list={list}/></td>
 
                         <td className="py-2 px-4 ">
                         <label 
