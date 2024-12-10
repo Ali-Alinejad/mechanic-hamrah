@@ -46,14 +46,14 @@ const Dashboard = () => {
   };
 
   const lineData = {
-    labels: ["January", "February", "March", "April", "May", "June"],
+    labels: ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"],
     datasets: [
       {
-        label: "Requests Over Time",
-        data: [12, 19, 3, 5, 2, 3],
+        label: "بازخورد",
+        data: [4, 10, 7, 5, 6, 8,7,10,14,12,10,16],
         fill: false,
-        borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
+        borderColor: "rgb(500, 200, 0)",
+        tension: 0.3,
       },
     ],
   };
@@ -77,19 +77,19 @@ const Dashboard = () => {
 
   return (
     <div className={isDarkMode ? " bg-gray-900 text-white h-[100vh]" : " bg-gray-100 text-black h-[100vh]"}>
-      <div className="flex justify-between p-4 items-center m-0  bg-blue-800 text-white shadow-lg">
+      <div className="flex justify-between p-4 items-center  border-b-2  shadow-blue-950   shadow-inner">
         <div>
-          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold ml-10">مدیریت ادمین</h1>
         </div>
         <div className="flex items-center">
-          <h1 className="text-3xl font-bold px-4">علی علی نژاد</h1>
-          <h1 className="text-lg font-bold text-gray-400">خوش اومدی</h1>
+          <h1 className="text-xl font-bold px-4">علی علی نژاد</h1>
+          <h1 className="text-sm font-bold text-gray-400">خوش اومدی</h1>
         </div>
       </div>
 
       <button
         onClick={toggleTheme}
-        className={`w-12 h-12 absolute bottom-20 right-20 ring-2 ring-gray-400 rounded-full transition-all duration-300 
+        className={`w-12 h-12 absolute bottom-28 right-20 ring-2 ring-gray-400 rounded-full transition-all duration-300 
           ${isDarkMode 
           ? "bg-white text-black shadow-inner hover:bg-yellow-100 hover:scale-110 hover:rotate-12" 
           : "bg-gray-900 text-white shadow-inner hover:bg-gray-700 hover:scale-110 hover:rotate-12"}`}
@@ -97,19 +97,23 @@ const Dashboard = () => {
         <span className="transition-all duration-300">{isDarkMode ? "⋆｡˚☀️" : "‧₊˚ ☾. ⋅"}</span>
       </button>
 
-      <div className={`p-4 grid grid-cols-4 grid-rows-4 gap-4 h-[90vh] ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
-        <div className={`col-span-2 row-span-2 col-start-3 row-start-3 p-4 rounded-lg  flex flex-col justify-center items-center ${isDarkMode ? 'bg-transparent text-white' : 'bg-transparent text-black'}`}>
-          <div className="grid grid-cols-2 grid-rows-2 gap-8 justify-items-stretch place-items-stretch">
+      <div className={`p-4 grid grid-cols-4 grid-rows-5 gap-4 h-[90vh] ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+        <div className={`col-span-2 row-span-3 col-start-3 row-start-3   rounded-lg  flex flex-col justify-center items-center ${isDarkMode ? 'bg-transparent text-white' : 'bg-transparent text-black'}`}>
+          <div className="grid grid-cols-2 grid-rows-2  gap-8 justify-items-stretch place-items-stretch">
             <div className={`shadow-lg w-[440px] p-4 rounded-lg text-center ${isDarkMode ? 'bg-gray-800 text-white' : 'text-black bg-white'}`}>
               <h2 className="text-lg font-semibold">مجموع</h2>
-              <div className="flex w-full justify-center gap-20 pt-2 items-center">
-                <p className="text-4xl font-bold text-red-600">16</p>
-                <p className="text-4xl font-bold text-green-500">75</p>
-                <p className="text-4xl font-bold">91</p>
+              <div className=" w-full grid grid-cols-3 justify-items-center gap-4 pt-8 ">
+              <p className="text-4xl font-bold text-red-500">
+  {ListPending.filter(item => item.check === false).length}
+</p>
+                <p className="text-4xl font-bold text-green-500">
+  {ListPending.filter(item => item.check === true).length}
+</p>
+                <p className="text-4xl font-bold">{ListPending.length}</p>
               </div>
               <div className="flex w-full justify-center gap-20 pt-2 items-center">
-                <p className="text-sm font-bold text-gray-500">غیرفعال</p>
-                <p className="text-sm font-bold text-gray-500 pr-4">فعال</p>
+                <p className="text-sm font-bold text-gray-500"> مردود شده </p>
+                <p className="text-sm font-bold text-gray-500 pr-4">تایید شده</p>
                 <p className="text-sm font-bold text-gray-500">مجموع</p>
               </div>
             </div>
@@ -121,7 +125,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className={`row-span-2 col-start-3 p-4 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
+        <div className={`row-span-2 col-start-3 p-4  rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
           <h2 className="text-lg font-semibold">Requests Over Time (Line Chart)</h2>
           <Line data={lineData} />
         </div>

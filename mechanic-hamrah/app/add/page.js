@@ -87,7 +87,6 @@ function Page() {
       status: true,
     };
 
-    console.log("Inserting data:", dataToInsert);
 
     const { data, error } = await supabase
       .from("Type")
