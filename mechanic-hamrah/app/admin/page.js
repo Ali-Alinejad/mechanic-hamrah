@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Bar, Line,   } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend, ArcElement, RadialLinearScale } from "chart.js";
-import { Button, Spinner } from "@nextui-org/react";
+import {  Spinner } from "@nextui-org/react";
 import { supabase } from "../SupaBase/supabaseClient";
 import TimeShow from './time/timeShow'
 import ModalCheck from "./modalCheck/ModalCheck"
@@ -74,19 +74,14 @@ const Dashboard = () => {
       },
     ],
   };
-  const handleModalOpen = (data) => {
-    setSelectedData(data);
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    setSelectedData(null);
-  };
 
   useEffect(() => {
     fetchLocations();
   }, []);
+
+
+
+
   return (
     
     <div className={isDarkMode ? " bg-gray-900 text-white h-[100vh]" : " bg-gray-100 text-black h-[100vh]"}>
@@ -175,7 +170,7 @@ const Dashboard = () => {
         
                     return <tr key={list.id} className={`text-center items-center border-y-1  ${isDarkMode ? 'border-gray-700' : 'border-gray-300'}`}>
 
-                        <td className="py-2 px-4"><ModalCheck list={list}/></td>
+                        <td className="py-2 px-4"><ModalCheck list={list} onClick={fetchLocations()}/> </td>
 
                         <td className="py-2 px-4 ">
                         <label 
