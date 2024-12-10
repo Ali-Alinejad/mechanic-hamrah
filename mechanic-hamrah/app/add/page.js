@@ -12,6 +12,7 @@ import {
 import Navigation from "../components/Navigation";
 import L from "leaflet";
 import { supabase } from "../SupaBase/supabaseClient";
+import moment from "moment-jalaali";
 
 function LocationMarker({ setLatlng, setSelectedLocation }) {
   useMapEvents({
@@ -72,6 +73,15 @@ function Page() {
     fetchData();
   }, []);
 
+
+  const date = new Date();
+
+
+  const day = new Intl.DateTimeFormat("fa-IR", { day: "2-digit" }).format(date);
+  const month = new Intl.DateTimeFormat("fa-IR", { month: "2-digit" }).format(date);
+  const year = new Intl.DateTimeFormat("fa-IR", { year: "2-digit" }).format(date);
+
+const time = day + '/' + month + '/' + year
   const insertData = async (e) => {
     e.preventDefault();
 
@@ -85,6 +95,7 @@ function Page() {
       address: workingHours,
       type: Type,
       status: true,
+      date: time,
     };
 
 

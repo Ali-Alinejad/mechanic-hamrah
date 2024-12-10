@@ -37,7 +37,6 @@ export default function ModalCheck({ list }) {
     latitude: list?.lat || 35.6895, 
     longitude: list?.long || 51.3890, 
   };
-console.log(list?.check)
 
   async function AcceptClass() {
     const { data, error } = await supabase

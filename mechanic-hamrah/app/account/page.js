@@ -3,9 +3,11 @@
 import { Button, Spacer, Link, Input, Tabs, Tab } from "@nextui-org/react";
 import { useState } from "react";
 import { supabase } from "../SupaBase/supabaseClient";
+import { useRouter } from "next/navigation";
 
 
 function Login() {
+  const router = useRouter(); // تعریف router
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
 
@@ -14,7 +16,10 @@ function Login() {
   const [phone, setPhone] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
 
+
+
   const handleLogin = async (e) => {
+    
     e.preventDefault();
 
     const dataToInsert = {
@@ -62,6 +67,7 @@ const handleSignin = async (e) => {
   } else {
     alert("ورود موفقیت آمیز");
     console.log("Logged in user:", data[0]);
+    router.push("/cabin");
     
   }
 };
