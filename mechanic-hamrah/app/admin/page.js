@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Bar, Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend, ArcElement, RadialLinearScale } from "chart.js";
-import { Spinner } from "@nextui-org/react";
+import { Button, Spinner } from "@nextui-org/react";
 import { supabase } from "../SupaBase/supabaseClient";
 import TimeShow from './time/timeShow'
 import ModalCheck from "./modalCheck/ModalCheck"
@@ -28,14 +28,17 @@ const Dashboard = () => {
 
   const fetchLocations = async () => {
     try {
+console.log('fetch')
+setLoad(true);
+
       const { data: Type, error } = await supabase.from('Type').select('*');
       setLoad(false);
-
       if (error) throw error;
 
 
       const sortedData = Type?.sort((b,a) => a.id - b.id);
       setListPending(sortedData || []);
+
     } catch (error) {
       console.error("Error fetching locations:", error.message);
     }
@@ -57,13 +60,12 @@ const Dashboard = () => {
       },
     ],
   };
-
   const barData = {
-    labels: ["New", "In Progress", "Completed"],
+    labels: ["مردود", "تایید شده", "مجموع"],
     datasets: [
       {
-        label: "Requests Status",
-        data: [5, 8, 12],
+        label: "",
+        data: [ListPending.filter(item => item.check === false).length, ListPending.filter(item => item.check === true).length, ListPending.length],
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderColor: "rgb(75, 192, 192)",
         borderWidth: 1,
@@ -72,7 +74,9 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+
     fetchLocations();
+
   }, []);
 
   return (
@@ -80,7 +84,7 @@ const Dashboard = () => {
       <div className="flex justify-between p-4 items-center  border-b-2  shadow-blue-950   shadow-inner">
         <div>
           <h1 className="text-3xl font-bold ml-10">مدیریت ادمین</h1>
-        </div>
+        </div> 
         <div className="flex items-center">
           <h1 className="text-xl font-bold px-4">علی علی نژاد</h1>
           <h1 className="text-sm font-bold text-gray-400">خوش اومدی</h1>
@@ -126,19 +130,20 @@ const Dashboard = () => {
         </div>
 
         <div className={`row-span-2 col-start-3 p-4  rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
-          <h2 className="text-lg font-semibold">Requests Over Time (Line Chart)</h2>
+          <h2 className="text-lg font-semibold">تعداد درخواست ها</h2>
           <Line data={lineData} />
         </div>
 
         <div className={`row-span-2 col-start-4 p-4 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
-          <h2 className="text-lg font-semibold">Requests Status (Bar Chart)</h2>
+          <h2 className="text-lg font-semibold">شرایط جدول</h2>
           <Bar data={barData} />
         </div>
 
         <div className={`text-center ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} rounded-lg shadow-lg row-start-1 row-span-4 col-span-2`}>
-          <h2 className="text-xl py-2 text-gray-500 w-full font-semibold">جدول وضعیت</h2>
-          {Load && <Spinner color="primary" className="scale-150 z-10" />}
-
+          <div className="flex justify-center flex-col items-center">
+          <h2 className="text-xl py-2  text-gray-500 w-full font-semibold">جدول وضعیت</h2> 
+          {Load ? <Spinner color="primary" className="scale-150 z-10" /> :  <Button className="w-8 h-8 rounded-full bg-transparent ring-2 text-white" onClick={fetchLocations}> 🗘 </Button>}
+          </div>
           <div className="overflow-x-auto mt-4">
             <table className="min-w-full">
               <thead>
@@ -156,7 +161,7 @@ const Dashboard = () => {
                   return (
                     <tr key={list.id} className={`text-center items-center border-y-1 ${isDarkMode ? 'border-gray-700' : 'border-gray-300'}`}>
                       <td className="py-2 px-4">
-                        <ModalCheck list={list} onClick={fetchLocations()} />
+                        <ModalCheck list={list} onClick={fetchLocations} />
                       </td>
                       <td className="py-2 px-4 ">
                         <label

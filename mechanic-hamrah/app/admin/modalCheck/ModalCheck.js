@@ -33,10 +33,10 @@ export default function ModalCheck({ list }) {
   const closeModal = () => setIsOpen(false);
 
 
-  const location = {
-    latitude: list?.lat || 35.6895, 
-    longitude: list?.long || 51.3890, 
-  };
+ const location = {
+  latitude: list?.lat || 35.6895, // Default to Tehran's coordinates
+  longitude: list?.long || 51.3890,
+};
 
   async function AcceptClass() {
     const { data, error } = await supabase
@@ -138,7 +138,8 @@ export default function ModalCheck({ list }) {
                     closeModal(); 
                   }} >مردود</Button>
                 <Button
-                  color="success"
+                
+                  className="text-white bg-green-600"
                   onPress={() => {
                     AcceptClass(); 
                     closeModal();

@@ -38,7 +38,7 @@ function TimeShow() {
         </div>
 
      
-        <div className="col-start-3 text-4xl font-semibold m-4 text-start">{today}</div>
+        <div className="col-start-3 text-4xl font-semibold  text-center">{today}</div>
 
    
         <div className="col-span-2 col-start-1 p-8 row-start-2 text-sm text-gray-500">{year}</div>
