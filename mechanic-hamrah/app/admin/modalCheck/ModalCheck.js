@@ -46,8 +46,10 @@ export default function ModalCheck({ list }) {
       .select();
 
 
-    if (error) {
-      console.error("Error updating record:", error);
+      if (error) {
+        console.error("Error updating record:", error);
+        alert("خطایی رخ داده است. لطفاً دوباره امتحان کنید.");
+      
     } else {
       console.log("Record updated:", data);
     }
@@ -67,6 +69,18 @@ export default function ModalCheck({ list }) {
       console.log("Record updated:", data);
     }
   }
+  const formatDate = (date) => {
+    if (!date) return "نامشخص";
+    const [day, time] = date.split("T");
+    const cleanTime = time.split("+")[0];
+    return `${day}`;
+  };
+  const formatDates = (date) => {
+    if (!date) return "نامشخص";
+    const [day, time] = date.split("T");
+    const cleanTime = time.split("+")[0];
+    return `${cleanTime}`;
+  };
   return (
     <>
       <Button onPress={openModal} color="primary">نمایش</Button>
@@ -114,12 +128,13 @@ export default function ModalCheck({ list }) {
                       <p className="pt-2">{list?.username || "ندارد"}</p>
                     </div>
                     <div className="col-span-1 flex flex-col justify-center items-center">
-                      <h5 className="text-gray-400 text-sm font-semibold">جیمیل</h5>
-                      <p className="pt-2">{list?.email || "ندارد"}</p>
+                      <h5 className="text-gray-400 text-sm font-semibold">زمان ثبت</h5>
+                      <p className="pt-2">{formatDates(list?.date)}</p>
+
                     </div>
                     <div className="col-span-1 flex flex-col justify-center items-center">
                       <h5 className="text-gray-400 text-sm font-semibold">تاریخ ثبت</h5>
-                      <p className="pt-2">{list?.date || "ندارد"}</p>
+                      <p className="pt-2">{formatDate(list?.date)}</p>
                     </div>
                     <div className="col-span-1 flex flex-col justify-center items-center">
                       <h5 className="text-gray-400 text-sm font-semibold">نوع ثبت</h5>

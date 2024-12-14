@@ -25,24 +25,27 @@ const Dashboard = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [ListPending, setListPending] = useState([]);
   const [Load, setLoad] = useState(true);
-
+const [dateList, setDateList] = useState([]);
   const fetchLocations = async () => {
     try {
-console.log('fetch')
 setLoad(true);
 
       const { data: Type, error } = await supabase.from('Type').select('*');
       setLoad(false);
       if (error) throw error;
-
-
-      const sortedData = Type?.sort((b,a) => a.id - b.id);
+      
+      const sortedData = Type?.sort((b, a) => a.id - b.id);
       setListPending(sortedData || []);
-
+  
+    
+      setDateList(formattedDates);
     } catch (error) {
       console.error("Error fetching locations:", error.message);
     }
-  };
+
+  }
+
+
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
@@ -158,6 +161,7 @@ setLoad(true);
               </thead>
               <tbody>
                 {ListPending.map((list) => {
+               
                   return (
                     <tr key={list.id} className={`text-center items-center border-y-1 ${isDarkMode ? 'border-gray-700' : 'border-gray-300'}`}>
                       <td className="py-2 px-4">

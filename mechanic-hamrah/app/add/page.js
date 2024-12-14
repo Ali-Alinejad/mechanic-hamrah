@@ -12,7 +12,7 @@ import {
 import Navigation from "../components/Navigation";
 import L from "leaflet";
 import { supabase } from "../SupaBase/supabaseClient";
-import moment from "moment-jalaali";
+import moment, { now } from "moment-jalaali";
 
 function LocationMarker({ setLatlng, setSelectedLocation }) {
   useMapEvents({
@@ -73,15 +73,9 @@ function Page() {
     fetchData();
   }, []);
 
+  const now = moment(); 
+  const time = now.format("YYYY-MM-DD HH:mm:ss+00");
 
-  const date = new Date();
-
-
-  const day = new Intl.DateTimeFormat("fa-IR", { day: "2-digit" }).format(date);
-  const month = new Intl.DateTimeFormat("fa-IR", { month: "2-digit" }).format(date);
-  const year = new Intl.DateTimeFormat("fa-IR", { year: "2-digit" }).format(date);
-
-const time =  year + '/' + month + '/' + day
   const insertData = async (e) => {
     e.preventDefault();
 
@@ -138,8 +132,8 @@ const time =  year + '/' + month + '/' + day
               <Input
                 clearable
                 underlined
-                label="شماره مغازه"
-                placeholder="شماره مغازه را وارد کنید"
+                label="شماره "
+                placeholder="شماره  را وارد کنید"
                 required
                 value={shopNumber}
                 onChange={(e) => setShopNumber(e.target.value)}
