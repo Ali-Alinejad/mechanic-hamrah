@@ -66,7 +66,7 @@ const handleSignin = async (e) => {
     
   } else {
     alert("ورود موفقیت آمیز");
-    console.log("Logged in user:", data[0]);
+    console.log(`${data[0].name} ${" "}خوش اومدی `)
     router.push("/cabin");
     
   }

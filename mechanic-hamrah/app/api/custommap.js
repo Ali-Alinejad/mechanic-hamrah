@@ -81,8 +81,8 @@ function MapIrMap({ onClick }) {
 
     if (error) {
       console.error("Error fetching locations:", error);
+      alert(error)
     } else {
-      console.log("Fetched locations:", data);
       setLocations(data);
     }
   };
@@ -132,7 +132,7 @@ function MapIrMap({ onClick }) {
                 icon={customIcon}
               >
                 <Popup>
-                  <div className="w-fit">
+                  <div className="w-full">
                     <div className="shadow-lg rounded-lg bg-white">
                       <div className="bg-blue-600 text-white rounded-t-lg p-4">
                         <h3 className="text-lg font-semibold">{loc.name}</h3>

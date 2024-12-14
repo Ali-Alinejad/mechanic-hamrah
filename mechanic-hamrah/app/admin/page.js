@@ -26,6 +26,7 @@ const Dashboard = () => {
   const [ListPending, setListPending] = useState([]);
   const [Load, setLoad] = useState(true);
 const [dateList, setDateList] = useState([]);
+const [monthCounts, setMonthCounts] = useState(Array(12).fill(0));
   const fetchLocations = async () => {
     try {
 setLoad(true);
@@ -37,32 +38,42 @@ setLoad(true);
       const sortedData = Type?.sort((b, a) => a.id - b.id);
       setListPending(sortedData || []);
   
-    
-      setDateList(formattedDates);
+      const dates = sortedData?.map((item) => {
+        const date = new Date(item.date); 
+        return date.getMonth(); 
+      }) || [];
+  
+      setDateList(dates);
+      const counts = Array(12).fill(0);
+      dates.forEach((month) => {
+        counts[month] += 1;
+        setMonthCounts(counts);
+      });
     } catch (error) {
       console.error("Error fetching locations:", error.message);
     }
 
+
   }
+  console.log(monthCounts)    
 
-
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
 
   const lineData = {
     labels: ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"],
     datasets: [
       {
         label: "بازخورد",
-        data: [4, 10, 7, 5, 6, 8,7,10,14,12,10,16],
+        data: monthCounts,
         fill: false,
         borderColor: "rgb(500, 200, 0)",
         tension: 0.3,
       },
     ],
   };
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   const barData = {
     labels: ["مردود", "تایید شده", "مجموع"],
     datasets: [
