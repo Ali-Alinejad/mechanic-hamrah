@@ -81,7 +81,7 @@ function Page() {
   const month = new Intl.DateTimeFormat("fa-IR", { month: "2-digit" }).format(date);
   const year = new Intl.DateTimeFormat("fa-IR", { year: "2-digit" }).format(date);
 
-const time = day + '/' + month + '/' + year
+const time =  year + '/' + month + '/' + day
   const insertData = async (e) => {
     e.preventDefault();
 

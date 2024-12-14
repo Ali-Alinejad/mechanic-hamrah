@@ -73,7 +73,12 @@ function MapIrMap({ onClick }) {
   };
 
   const fetchLocations = async () => {
-    let { data, error } = await supabase.from("Type").select("*");
+    let { data, error } = await supabase
+    .from('Type')
+    .select("*")
+    .eq('pending', 'false')
+    .eq('check', 'true')
+
     if (error) {
       console.error("Error fetching locations:", error);
     } else {
