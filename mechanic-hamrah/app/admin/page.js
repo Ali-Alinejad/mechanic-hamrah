@@ -68,6 +68,9 @@ setLoad(true);
       },
     ],
   };
+  console.log(monthCounts)
+
+
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
   };
