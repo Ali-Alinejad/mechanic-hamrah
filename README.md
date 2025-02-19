@@ -1,7 +1,7 @@
 # 📐 Next.js Mechanic Project 🚗🔧
 
 ## 🚀 Introduction
-Welcome to the **Next.js**-based web application for a **mobile mechanic service**! This handy app lets users find nearby mechanics and get real-time assistance based on their location. Perfect for when you're in a pinch! 😉
+Welcome to the **Next.js**-based web application for a ** mechanic service**! This handy app lets users find nearby mechanics and get real-time assistance based on their location. Perfect for when you're in a pinch! 😉
 
 ![Main Page](https://github.com/user-attachments/assets/6cd1b828-00c0-42ed-9896-93fd7b7c0643)
 
